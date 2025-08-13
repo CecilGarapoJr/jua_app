@@ -46,13 +46,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.jua-app.rule=Host(`jua.twunhu.app`)
-      - traefik.http.routers.jua-app.entrypoints=https
-      - traefik.http.routers.jua-app.tls=true
-      - traefik.http.routers.jua-app.tls.certresolver=letsencrypt
-      - traefik.http.services.jua-app.loadbalancer.server.port=80
     networks:
       - coolify
 
