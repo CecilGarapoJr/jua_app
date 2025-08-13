@@ -46,6 +46,9 @@ RUN apk add --no-cache \
     supervisor \
     mysql-client \
     libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libwebp-dev \
     libzip-dev \
     zip \
     unzip \
@@ -58,7 +61,8 @@ RUN apk add --no-cache \
     oniguruma-dev \
     libxml2-dev \
     gmp-dev \
-    bash
+    bash \
+    pkgconf
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
