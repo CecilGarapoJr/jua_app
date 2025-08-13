@@ -32,7 +32,7 @@
 
 <script setup>
 import draggable from 'vuedraggable'
-import { menu } from '@/composables/menuComposable'
+import { menu } from '@/Composables/menuComposable'
 import { ref } from 'vue'
 defineProps({
   tasks: {
