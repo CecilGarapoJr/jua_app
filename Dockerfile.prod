@@ -10,6 +10,7 @@ RUN npm run build
 FROM composer:2 AS composer-builder
 WORKDIR /app
 COPY composer.json ./
+# Generate composer.lock file and install dependencies
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
 
 # Final stage
