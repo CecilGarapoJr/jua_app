@@ -7,28 +7,32 @@ COPY . .
 RUN npm run build
 
 # PHP dependencies stage
-FROM composer:2 AS composer-builder
+FROM php:8.2-cli-alpine AS composer-builder
 WORKDIR /app
 
 # Install system dependencies for PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
+    freetype-dev \
+    libjpeg-turbo-dev \
     libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
     libwebp-dev \
     libzip-dev \
-    libgmp-dev \
-    libonig-dev \
+    gmp-dev \
+    oniguruma-dev \
     libxml2-dev \
-    && rm -rf /var/lib/apt/lists/*
+    git \
+    unzip
 
 # Install PHP extensions required by dependencies
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath zip gmp
 
+# Install composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 COPY composer.json ./
 # Generate composer.lock file and install dependencies
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
 
 # Final stage
 FROM php:8.2-fpm-alpine
