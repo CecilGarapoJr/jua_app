@@ -106,7 +106,7 @@ import NestedDraggable from '@/Components/NestedDraggable.vue'
 import HeaderSegment from '@/Layouts/Admin/HeaderSegment.vue'
 import { onMounted } from 'vue'
 import axios from 'axios'
-import { menu } from '@/composables/menuComposable'
+import { menu } from '@/Composables/menuComposable'
 import notify from '@/Plugins/Admin/notify'
 import trans from '@/Composables/transComposable'
 
