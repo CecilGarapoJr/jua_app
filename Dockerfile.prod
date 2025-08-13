@@ -43,7 +43,7 @@ RUN composer config platform.php 8.2 && \
     composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs --no-interaction
 
 # Generate optimized autoloader in composer stage
-RUN composer dump-autoload --optimize
+RUN composer dump-autoload --optimize --ignore-platform-reqs
 
 # Final stage
 FROM php:8.2-fpm-alpine
