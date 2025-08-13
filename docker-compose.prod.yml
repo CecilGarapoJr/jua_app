@@ -48,6 +48,13 @@ services:
       start_period: 40s
     networks:
       - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      - traefik.http.routers.jua.rule=Host(`jua.twunhu.app`)
+      - traefik.http.routers.jua.entrypoints=http,https
+      - traefik.http.routers.jua.tls.certresolver=letsencrypt
+      - traefik.http.services.jua.loadbalancer.server.port=80
 
 networks:
   coolify:
