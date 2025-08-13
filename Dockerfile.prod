@@ -30,12 +30,17 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY composer.json ./
+# Copy composer files
+COPY composer.* ./
+
 # Generate composer.lock file if it doesn't exist and install dependencies
 RUN if [ ! -f composer.lock ]; then \
-    composer update --no-scripts --no-autoloader --ignore-platform-reqs; \
+    composer update --no-scripts --no-autoloader --ignore-platform-reqs --no-interaction --with-all-dependencies; \
 fi
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
+
+# Install dependencies with specific version constraints
+RUN composer config platform.php 8.2 && \
+    composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs --no-interaction
 
 # Final stage
 FROM php:8.2-fpm-alpine
