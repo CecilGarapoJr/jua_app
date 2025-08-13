@@ -9,6 +9,23 @@ RUN npm run build
 # PHP dependencies stage
 FROM composer:2 AS composer-builder
 WORKDIR /app
+
+# Install system dependencies for PHP extensions
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libwebp-dev \
+    libzip-dev \
+    libgmp-dev \
+    libonig-dev \
+    libxml2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions required by dependencies
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd pdo_mysql mbstring exif pcntl bcmath zip gmp
+
 COPY composer.json ./
 # Generate composer.lock file and install dependencies
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
