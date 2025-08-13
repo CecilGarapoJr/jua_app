@@ -1,0 +1,39 @@
+{
+  "name": "Jua Implementation",
+  "description": "Jua Application - Laravel + Vue.js",
+  "type": "docker-compose",
+  "compose": {
+    "file": "docker-compose.prod.yml",
+    "service": "app"
+  },
+  "build": {
+    "dockerfile": "Dockerfile.prod",
+    "context": "."
+  },
+  "healthcheck": {
+    "path": "/health-check.php",
+    "port": 80,
+    "interval": "30s",
+    "timeout": "10s",
+    "retries": 3
+  },
+  "ports": [
+    {
+      "published": 80,
+      "target": 80,
+      "protocol": "tcp"
+    }
+  ],
+  "volumes": [
+    {
+      "source": "jua-storage",
+      "target": "/var/www/html/storage",
+      "type": "volume"
+    }
+  ],
+  "environment": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false"
+  },
+  "restart": "unless-stopped"
+}

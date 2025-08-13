@@ -1,0 +1,99 @@
+# Build stage
+FROM node:18-alpine AS node-builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# PHP dependencies stage
+FROM composer:2 AS composer-builder
+WORKDIR /app
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Final stage
+FROM php:8.2-fpm-alpine
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install dependencies
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    mysql-client \
+    libpng-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    git \
+    curl \
+    libpng \
+    libjpeg-turbo \
+    freetype \
+    libwebp \
+    oniguruma-dev \
+    libxml2-dev \
+    gmp-dev \
+    bash
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip gmp opcache
+
+# Configure PHP for production
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+    sed -i 's/memory_limit = 128M/memory_limit = 256M/g' "$PHP_INI_DIR/php.ini" && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 60/g' "$PHP_INI_DIR/php.ini" && \
+    sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 64M/g' "$PHP_INI_DIR/php.ini" && \
+    sed -i 's/post_max_size = 8M/post_max_size = 64M/g' "$PHP_INI_DIR/php.ini"
+
+# Configure OPcache for production
+RUN echo 'opcache.enable=1' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.enable_cli=1' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.memory_consumption=256' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.interned_strings_buffer=16' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.max_accelerated_files=16000' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.validate_timestamps=0' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.save_comments=1' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini" && \
+    echo 'opcache.fast_shutdown=1' >> "$PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini"
+
+# Configure Nginx
+RUN mkdir -p /etc/nginx/http.d
+COPY docker/nginx/conf.d/app.conf /etc/nginx/http.d/default.conf
+
+# Copy Supervisor configuration
+COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy PHP dependencies
+COPY --from=composer-builder /app/vendor /var/www/html/vendor
+COPY --chown=www-data:www-data . /var/www/html
+
+# Copy built frontend assets
+COPY --from=node-builder --chown=www-data:www-data /app/public/build /var/www/html/public/build
+
+# Generate optimized autoloader
+RUN composer dump-autoload --optimize
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Create directory for Supervisor logs
+RUN mkdir -p /var/log/supervisor
+
+# Create start script
+RUN echo '#!/bin/sh' > /start.sh && \
+    echo 'php artisan config:cache' >> /start.sh && \
+    echo 'php artisan route:cache' >> /start.sh && \
+    echo 'php artisan view:cache' >> /start.sh && \
+    echo 'php artisan storage:link' >> /start.sh && \
+    echo 'supervisord -c /etc/supervisor/conf.d/supervisord.conf' >> /start.sh && \
+    chmod +x /start.sh
+
+# Expose port 80
+EXPOSE 80
+
+# Start services
+CMD ["/start.sh"]

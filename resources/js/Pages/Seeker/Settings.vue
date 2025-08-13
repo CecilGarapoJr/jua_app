@@ -1,0 +1,1 @@
+/Users/twunhuman/Partnership/Jua/Jua_Implementation/resources/js/Pages/User/Settings.vue
