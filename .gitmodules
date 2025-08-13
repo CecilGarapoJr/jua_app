@@ -1,1 +1,3 @@
-# This file intentionally left empty to override any previous submodule configurations
+[submodule "app"]
+	path = app
+	url = https://github.com/CecilGarapoJr/jua_app.git
