@@ -21,7 +21,8 @@ RUN apk add --no-cache \
     oniguruma-dev \
     libxml2-dev \
     git \
-    unzip
+    unzip \
+    pkgconf
 
 # Install PHP extensions required by dependencies
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
