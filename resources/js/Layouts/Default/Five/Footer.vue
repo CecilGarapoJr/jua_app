@@ -1,6 +1,6 @@
 <script setup>
-import footerData from '@/composables/footerComposable'
-import LanguageSwitch from '@/components/LanguageSwitch.vue'
+import footerData from '@/Composables/footerComposable'
+import LanguageSwitch from '@/Components/LanguageSwitch.vue'
 const { footerCenter, footerRight, footerLeft, year, socials, email, NEWSLETTER_API, subscribe } =
   footerData()
 </script>
