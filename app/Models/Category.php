@@ -10,6 +10,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     use HasFactory;
+    
+    /**
+     * Category type constants for the opportunity platform
+     */
+    const TYPE_OPPORTUNITY_SERVICE = 'opportunity_service';
+    const TYPE_OPPORTUNITY_CATEGORY = 'opportunity_category';
+    const TYPE_OPPORTUNITY_TAG = 'opportunity_tag';
+    
+    /**
+     * Legacy category type constants (for backward compatibility)
+     */
+    const TYPE_SERVICE = 'service';
+    const TYPE_JOB_CATEGORY = 'job_category';
+    const TYPE_JOB_TAG = 'job_tag';
+    const TYPE_BLOG_CATEGORY = 'blog_category';
 
     /**
      * The attributes that are mass assignable.
@@ -75,5 +90,62 @@ class Category extends Model
     public function jobs()
     {
         return $this->belongsToMany(Opening::class, 'category_opening', 'category_id', 'opening_id');
+    }
+    
+    /**
+     * Get opportunities associated with this category
+     * This is an alias for jobs() to maintain backward compatibility
+     */
+    public function opportunities()
+    {
+        return $this->jobs();
+    }
+    
+    /**
+     * Scope a query to only include opportunity services
+     */
+    public function scopeOpportunityServices($query)
+    {
+        return $query->where('type', self::TYPE_OPPORTUNITY_SERVICE);
+    }
+    
+    /**
+     * Scope a query to only include opportunity categories
+     */
+    public function scopeOpportunityCategories($query)
+    {
+        return $query->where('type', self::TYPE_OPPORTUNITY_CATEGORY);
+    }
+    
+    /**
+     * Scope a query to only include opportunity tags
+     */
+    public function scopeOpportunityTags($query)
+    {
+        return $query->where('type', self::TYPE_OPPORTUNITY_TAG);
+    }
+    
+    /**
+     * Check if this category is an opportunity service
+     */
+    public function isOpportunityService(): bool
+    {
+        return $this->type === self::TYPE_OPPORTUNITY_SERVICE;
+    }
+    
+    /**
+     * Check if this category is an opportunity category
+     */
+    public function isOpportunityCategory(): bool
+    {
+        return $this->type === self::TYPE_OPPORTUNITY_CATEGORY;
+    }
+    
+    /**
+     * Check if this category is an opportunity tag
+     */
+    public function isOpportunityTag(): bool
+    {
+        return $this->type === self::TYPE_OPPORTUNITY_TAG;
     }
 }

@@ -31,7 +31,9 @@ createInertiaApp({
       page.default.layout = page.default.layout ?? null
       return page
     } else {
-      console.log('Invalid page', name)
+      console.error('Page not found:', name)
+      // Return a fallback error page or redirect to 404
+      return import('./Pages/Error.vue')
     }
   },
   setup({ el, App, props, plugin }) {

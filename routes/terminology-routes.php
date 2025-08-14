@@ -31,37 +31,37 @@ Route::post('/applicants/{user}/bookmark', [WEB\CandidateController::class, 'tog
 Route::post('/applicants/{candidate}/send-mail', [WEB\CandidateController::class, 'sendMail'])
     ->name('applicants.send-mail');
 
-// Job → Opportunity routes
-Route::resource('/opportunities', WEB\JobController::class)
+// Job → Opportunity routes (using the new OpportunityController)
+Route::resource('/opportunities', WEB\OpportunityController::class)
     ->only(['index', 'show'])
     ->names('opportunities');
-Route::post('/opportunities/{job}/bookmark', [WEB\JobController::class, 'toggleBookmark'])
+Route::post('/opportunities/{opportunity}/bookmark', [WEB\OpportunityController::class, 'toggleBookmark'])
     ->name('opportunities.bookmark')
     ->middleware('auth');
-Route::get('/opportunities/{job}/apply', [WEB\JobController::class, 'apply'])
+Route::get('/opportunities/{opportunity}/apply', [WEB\OpportunityController::class, 'apply'])
     ->name('opportunities.apply')
     ->middleware('auth');
-Route::post('/opportunities/{job}/apply', [WEB\JobController::class, 'applyStore'])
+Route::post('/opportunities/{opportunity}/apply', [WEB\OpportunityController::class, 'applyStore'])
     ->name('opportunities.apply')
     ->middleware('auth');
 
 // Job categories/services → Opportunity categories/services
-Route::get('opportunity-category/{slug}', [WEB\JobController::class, 'index'])
+Route::get('opportunity-category/{slug}', [WEB\OpportunityController::class, 'index'])
     ->name('opportunity-categories.show');
-Route::get('opportunity-service/{slug}', [WEB\JobController::class, 'index'])
+Route::get('opportunity-service/{slug}', [WEB\OpportunityController::class, 'index'])
     ->name('opportunity-services.show');
 
 // Employer → Organisation routes (user panel)
 Route::group(['prefix' => 'organisation', 'as' => 'organisation.', 'middleware' => ['auth', 'email_verified', 'active_account', 'company_info', 'employer', 'saas']], function () {
     
     Route::middleware('kyc_verified')->group(function () {
-        Route::post('opportunity-application/seen', [App\Http\Controllers\Employer\JobController::class, 'updateSeenAt'])
+        Route::post('opportunity-application/seen', [App\Http\Controllers\Employer\OpportunityController::class, 'updateSeenAt'])
             ->name('opportunity-application-seen');
-        Route::resource('opportunities', App\Http\Controllers\Employer\JobController::class)
+        Route::resource('opportunities', App\Http\Controllers\Employer\OpportunityController::class)
             ->names('opportunities');
-        Route::get('opportunity-applicants', [App\Http\Controllers\Employer\JobController::class, 'applicants'])
+        Route::get('opportunity-applicants', [App\Http\Controllers\Employer\OpportunityController::class, 'applicants'])
             ->name('opportunity-applicants');
-        Route::get('opportunity-reviews', [App\Http\Controllers\Employer\JobController::class, 'reviews'])
+        Route::get('opportunity-reviews', [App\Http\Controllers\Employer\OpportunityController::class, 'reviews'])
             ->name('opportunity-reviews');
         Route::resource('applicant-reviews', App\Http\Controllers\Employer\CandidateReviewController::class)
             ->only('store')

@@ -140,7 +140,7 @@ const createdDescription = (template) => {
 </script>
 
 <template>
-  <Head title="Employer Information" />
+  <Head title="Organisation Information" />
 
   <div class="inner-banner-one position-relative p-70px"></div>
   <div class="mt-30 container">
@@ -160,18 +160,18 @@ const createdDescription = (template) => {
   </div>
   <div class="dashboard-body company-i-pt-3 container mx-auto mt-4 rounded">
     <form @submit.prevent="submit" class="card-box">
-      <h2 class="main-title ml-5">{{ trans('Employer Information') }}</h2>
+      <h2 class="main-title ml-5">{{ trans('Organisation Information') }}</h2>
       <div v-if="step == 1">
         <div class="row">
           <div class="col-6 dash-input-wrapper mb-2">
-            <label for="">{{ trans('Company Name') }}</label>
+            <label for="">{{ trans('Organisation Name') }}</label>
             <input
               type="text"
               required
               :value="form.company_name"
               readonly
               disabled
-              placeholder="Company Name"
+              placeholder="Organisation Name"
             />
             <InputFieldError :message="form.errors.company_name" />
           </div>
@@ -188,12 +188,12 @@ const createdDescription = (template) => {
         </div>
         <div class="row">
           <div class="col-6 dash-input-wrapper mb-2">
-            <label for="">{{ trans('Company Intro') }}</label>
-            <input type="text" v-model="form.company_intro" placeholder="Company Intro" />
+            <label for="">{{ trans('Organisation Intro') }}</label>
+            <input type="text" v-model="form.company_intro" placeholder="Organisation Intro" />
             <InputFieldError :message="form.errors.company_intro" />
           </div>
           <div class="col-6 mb-2">
-            <label for="" class="c-input-label">{{ trans('Company Size') }}*</label>
+            <label for="" class="c-input-label">{{ trans('Organisation Size') }}*</label>
             <Multiselect
               v-model="form.company_size"
               :options="[
@@ -221,7 +221,7 @@ const createdDescription = (template) => {
           </div>
         </div>
         <div class="row">
-          <label for="" class="c-input-label">{{ trans('Company Address') }}*</label>
+          <label for="" class="c-input-label">{{ trans('Organisation Address') }}*</label>
           <div class="col-6 mb-2">
             <Multiselect
               @deselect="states = []"
@@ -328,7 +328,7 @@ const createdDescription = (template) => {
       <div v-if="step == 2">
         <div class="dash-input-wrapper mb-2">
           <div class="d-flex justify-content-between align-items-center">
-            <label for="">{{ trans('Business Description') }}</label>
+            <label for="">{{ trans('Organisation Description') }}</label>
             <button
               v-if="descriptionTemplates.length > 0"
               @click="getDescriptionTemplates"
@@ -343,16 +343,16 @@ const createdDescription = (template) => {
           <textarea
             required
             v-model="form.business.description"
-            placeholder="Business Description"
+            placeholder="Organisation Description"
             class="size-lg"
           ></textarea>
           <InputFieldError :message="form.errors.business?.description" />
         </div>
         <div class="row dash-input-wrapper mb-2">
           <div class="col-6">
-            <label for="">{{ trans('Business/ Trade License No') }}</label>
+            <label for="">{{ trans('Organisation/ Trade License No') }}</label>
             <input
-              placeholder="Business/ Trade License No"
+              placeholder="Organisation/ Trade License No"
               type="text"
               v-model="form.business.license_no"
             />

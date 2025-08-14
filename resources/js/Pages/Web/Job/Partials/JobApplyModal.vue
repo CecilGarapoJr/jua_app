@@ -4,6 +4,7 @@ import trans from '@/Composables/transComposable';
 import SpinnerBtn from "@/Components/Admin/SpinnerBtn.vue";
 import notify from "@/Plugins/Admin/notify";
 import InputFieldError from "@/Components/InputFieldError.vue";
+import { replaceTerminology } from '@/Utils/terminologyMapping';
 
 const props = defineProps(["job"]);
 
@@ -13,10 +14,12 @@ const form = useForm({
   fields: [...props.job?.fields ?? []],
 });
 const jobApplication = () => {
-  form.post(route("jobs.apply", props.job.slug), {
+  // Use the new opportunity routes but maintain backward compatibility
+  const routeName = props.job.type && !props.job.type.startsWith('job_') ? 'opportunities.apply' : 'jobs.apply';
+  form.post(route(routeName, props.job.slug), {
     preserveScroll: true,
     onSuccess: () => {
-      notify.success(trans("Application has been submitted successfully"));
+      notify.success(replaceTerminology(trans("Application has been submitted successfully")));
       $("#applyModalClsBtn").trigger("click");
     },
   });
@@ -41,7 +44,7 @@ const jobApplication = () => {
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="applyModalTitle">
-            {{ trans("Job Application") }}
+            {{ replaceTerminology(trans(props.job.type && !props.job.type.startsWith('job_') ? "Opportunity Application" : "Job Application")) }}
           </h5>
           <button
             type="button"
@@ -55,19 +58,19 @@ const jobApplication = () => {
           <div class="modal-body">
             <template v-if="job.apply_type == 1">
               <div class="mb-2">
-                <label for="">{{ trans("Email") }}</label>
+                <label for="">{{ replaceTerminology(trans("Email")) }}</label>
                 <input class="form-control" v-model="form.email" type="text" />
                 <InputFieldError :message="form.errors.email" />
               </div>
               <div class="mb-2">
-                <label for="">{{ trans("Message") }}</label>
+                <label for="">{{ replaceTerminology(trans("Message")) }}</label>
                 <textarea v-model="form.message" class="form-control"></textarea>
                 <InputFieldError :message="form.errors.message" />
               </div>
             </template>
 
             <div class="mb-2" v-for="field in form.fields" :key="field.label">
-              <label>{{ field.label }}</label>
+              <label>{{ replaceTerminology(field.label) }}</label>
               <input
                 v-if="field.type == 'file'"
                 type="file"
@@ -91,20 +94,20 @@ const jobApplication = () => {
               />
             </div>
 
-            <div v-if="!form.fields.length" class="alert alert-info">{{ trans('Click the submit application button to apply') }}</div>
+            <div v-if="!form.fields.length" class="alert alert-info">{{ replaceTerminology(trans('Click the submit application button to apply')) }}</div>
 
             <InputFieldError :message="form.errors.value" />
             <br />
 
             <div div class="modal-footer">
               <button type="button" class="py-2 btn-eight" data-bs-dismiss="modal">
-                {{ trans("Close") }}
+                {{ replaceTerminology(trans("Close")) }}
               </button>
               <SpinnerBtn
-                type="submit"
                 :processing="form.processing"
-                class="btn-one"
-                :btn-text="trans('Submit Application')"
+                :classes="'btn-one w-100 tran3s'"
+                :btnText="replaceTerminology(trans(props.job.type && !props.job.type.startsWith('job_') ? 'Submit Opportunity Application' : 'Submit Job Application'))"
+                type="submit"
               />
             </div>
           </div>

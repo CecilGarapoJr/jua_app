@@ -68,6 +68,42 @@ class Opening extends Model
         'Hourly-Contract',
         'Fixed-Price',
     ];
+    
+    const OPPORTUNITY_TYPES = [
+        // Job types
+        'job_full_time' => 'Full Time Job',
+        'job_part_time' => 'Part Time Job',
+        'job_hourly_contract' => 'Hourly Contract Job',
+        'job_fixed_price' => 'Fixed Price Job',
+        
+        // Scholarship types
+        'scholarship_full' => 'Full Scholarship',
+        'scholarship_partial' => 'Partial Scholarship',
+        'scholarship_merit' => 'Merit Scholarship',
+        
+        // Grant types
+        'grant_research' => 'Research Grant',
+        'grant_project' => 'Project Grant',
+        'grant_business' => 'Business Grant',
+        
+        // Training types
+        'training_course' => 'Training Course',
+        'training_workshop' => 'Workshop',
+        'training_certification' => 'Certification Program',
+        
+        // Internship types
+        'internship_paid' => 'Paid Internship',
+        'internship_unpaid' => 'Unpaid Internship',
+        'internship_academic' => 'Academic Internship',
+    ];
+    
+    const OPPORTUNITY_CATEGORIES = [
+        'job' => ['job_full_time', 'job_part_time', 'job_hourly_contract', 'job_fixed_price'],
+        'scholarship' => ['scholarship_full', 'scholarship_partial', 'scholarship_merit'],
+        'grant' => ['grant_research', 'grant_project', 'grant_business'],
+        'training' => ['training_course', 'training_workshop', 'training_certification'],
+        'internship' => ['internship_paid', 'internship_unpaid', 'internship_academic'],
+    ];
 
     // accessor
     public function getIsBookmarkedAttribute($value): bool
@@ -160,5 +196,59 @@ class Opening extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(CompanyReview::class, 'job_id');
+    }
+    
+    /**
+     * Get the main category of the opportunity (job, scholarship, grant, etc.)
+     *
+     * @return string
+     */
+    public function getOpportunityCategory(): string
+    {
+        $type = $this->type;
+        
+        foreach (self::OPPORTUNITY_CATEGORIES as $category => $types) {
+            if (in_array($type, $types)) {
+                return $category;
+            }
+        }
+        
+        // Default to job if no match found
+        return 'job';
+    }
+    
+    /**
+     * Check if the opportunity is of a specific category
+     *
+     * @param string $category
+     * @return bool
+     */
+    public function isOpportunityCategory(string $category): bool
+    {
+        return $this->getOpportunityCategory() === $category;
+    }
+    
+    /**
+     * Get the display name for the opportunity type
+     *
+     * @return string
+     */
+    public function getOpportunityTypeDisplay(): string
+    {
+        return self::OPPORTUNITY_TYPES[$this->type] ?? $this->type;
+    }
+    
+    /**
+     * Scope a query to only include opportunities of a specific category
+     *
+     * @param Builder $query
+     * @param string $category
+     * @return Builder
+     */
+    public function scopeOfCategory($query, string $category): Builder
+    {
+        $types = self::OPPORTUNITY_CATEGORIES[$category] ?? [];
+        
+        return $query->whereIn('type', $types);
     }
 }

@@ -23,6 +23,36 @@ export const terminologyMap = {
   'employers': 'organisations',
   'Jobs': 'Opportunities',
   'jobs': 'opportunities',
+  
+  // Opportunity-specific terms
+  'Full Time Job': 'Full Time Opportunity',
+  'full time job': 'full time opportunity',
+  'Part Time Job': 'Part Time Opportunity',
+  'part time job': 'part time opportunity',
+  'Contract Job': 'Contract Opportunity',
+  'contract job': 'contract opportunity',
+  'Temporary Job': 'Temporary Opportunity',
+  'temporary job': 'temporary opportunity',
+  'Internship': 'Internship Opportunity',
+  'internship': 'internship opportunity',
+  'Scholarship': 'Scholarship Opportunity',
+  'scholarship': 'scholarship opportunity',
+  'Grant': 'Grant Opportunity',
+  'grant': 'grant opportunity',
+  'Training': 'Training Opportunity',
+  'training': 'training opportunity',
+  
+  // Field-specific terms
+  'Salary': 'Value',
+  'salary': 'value',
+  'Salary Range': 'Value Range',
+  'salary range': 'value range',
+  'Experience': 'Eligibility Criteria',
+  'experience': 'eligibility criteria',
+  'Job Description': 'Opportunity Description',
+  'job description': 'opportunity description',
+  'Job Requirements': 'Opportunity Requirements',
+  'job requirements': 'opportunity requirements',
 };
 
 /**

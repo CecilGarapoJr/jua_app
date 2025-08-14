@@ -2,6 +2,7 @@
 import sharedComposable from "@/Composables/sharedComposable";
 import { useForm } from "@inertiajs/vue3";
 import trans from '@/Composables/transComposable';
+import { replaceTerminology } from '@/Utils/terminologyMapping';
 const { formatNumber, textExcerpt } = sharedComposable();
 defineProps({
   items: {
@@ -12,7 +13,9 @@ defineProps({
 
 const toggleBookmark = (job) => {
   let form = useForm({});
-  form.post(route("jobs.bookmark", job), {
+  // Use the new opportunity routes but maintain backward compatibility
+  const routeName = job.type && job.type.startsWith('job_') ? 'jobs.bookmark' : 'opportunities.bookmark';
+  form.post(route(routeName, job), {
     preserveScroll: true,
     onSuccess: () => {},
   });
@@ -28,7 +31,8 @@ const toggleBookmark = (job) => {
     <div class="row justify-content-between align-items-center">
       <div class="col-md-5">
         <div class="job-title d-flex align-items-center">
-          <Link :href="route('jobs.show', job.slug)" class="logo">
+          <!-- Use dynamic route based on opportunity type -->
+          <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="logo">
             <img
               v-lazy="
                 job.user?.avatar == null
@@ -40,10 +44,11 @@ const toggleBookmark = (job) => {
             />
           </Link>
           <div class="split-box1">
-            <Link :href="route('jobs.show', job.slug)" class="job-duration fw-500">
-              {{ job.type }}
+            <!-- Use dynamic route based on opportunity type -->
+            <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="job-duration fw-500">
+              {{ replaceTerminology(job.type) }}
             </Link>
-            <Link :href="route('jobs.show', job.slug)" class="title fw-500 tran3s">
+            <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="title fw-500 tran3s">
               {{ textExcerpt(job.title, 50) }}</Link
             >
           </div>
@@ -51,14 +56,15 @@ const toggleBookmark = (job) => {
       </div>
       <div class="col-md-4 col-sm-6">
         <div class="job-location" v-if="!job.country?.[0]?.name">
-          {{ trans("Remote") }}
+          {{ replaceTerminology(trans("Remote")) }}
         </div>
         <div class="job-location" v-else>
-          <Link :href="route('jobs.show', job.slug)">
+          <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)">
             {{ job.country?.[0]?.name }}, {{ job.state?.[0]?.name }}</Link
           >
         </div>
-        <div class="job-salary">
+        <!-- Conditional display based on opportunity type -->
+        <div class="job-salary" v-if="job.type && job.type.startsWith('job_')">
           <span
             class="fw-500 text-dark"
             v-if="
@@ -71,9 +77,51 @@ const toggleBookmark = (job) => {
             -
             {{ formatNumber(job.salary_range.split("-")[1], 0) }}
           </span>
-          <span class="fw-500 text-dark" v-else>{{ trans("Negotiable ") }}</span>
-          / {{ job.salary_type }} .
-          {{ job.experience }}
+          <span class="fw-500 text-dark" v-else>{{ replaceTerminology(trans("Negotiable")) }}</span>
+          / {{ replaceTerminology(job.salary_type) }} .
+          {{ replaceTerminology(job.experience) }}
+        </div>
+        <!-- Scholarship-specific display -->
+        <div class="job-salary" v-else-if="job.type === 'scholarship'">
+          <span class="fw-500 text-dark" v-if="job.fields?.award_amount">
+            {{ replaceTerminology('Award Amount') }}: {{ formatNumber(job.fields.award_amount, 0) }}
+          </span>
+          <span v-if="job.fields?.eligibility_criteria" class="d-block">
+            {{ replaceTerminology('Eligibility') }}: {{ textExcerpt(job.fields.eligibility_criteria, 30) }}
+          </span>
+        </div>
+        <!-- Grant-specific display -->
+        <div class="job-salary" v-else-if="job.type === 'grant'">
+          <span class="fw-500 text-dark" v-if="job.fields?.grant_amount">
+            {{ replaceTerminology('Grant Amount') }}: {{ formatNumber(job.fields.grant_amount, 0) }}
+          </span>
+          <span v-if="job.fields?.funding_source" class="d-block">
+            {{ replaceTerminology('Source') }}: {{ job.fields.funding_source }}
+          </span>
+        </div>
+        <!-- Training-specific display -->
+        <div class="job-salary" v-else-if="job.type === 'training'">
+          <span class="fw-500 text-dark" v-if="job.fields?.duration">
+            {{ replaceTerminology('Duration') }}: {{ job.fields.duration }}
+          </span>
+          <span v-if="job.fields?.format" class="d-block">
+            {{ replaceTerminology('Format') }}: {{ replaceTerminology(job.fields.format) }}
+          </span>
+        </div>
+        <!-- Internship-specific display -->
+        <div class="job-salary" v-else-if="job.type === 'internship'">
+          <span class="fw-500 text-dark" v-if="job.fields?.stipend">
+            {{ replaceTerminology('Stipend') }}: {{ formatNumber(job.fields.stipend, 0) }}
+          </span>
+          <span v-if="job.fields?.internship_duration" class="d-block">
+            {{ replaceTerminology('Duration') }}: {{ job.fields.internship_duration }}
+          </span>
+        </div>
+        <!-- Default display for other types -->
+        <div class="job-salary" v-else>
+          <span class="fw-500 text-dark">
+            {{ replaceTerminology(job.type) }}
+          </span>
         </div>
       </div>
       <div class="col-md-3 col-sm-6">
@@ -83,12 +131,12 @@ const toggleBookmark = (job) => {
             @click="toggleBookmark(job)"
             class="text-center save-btn rounded-circle tran3s me-3"
             :class="{ 'bg-success': job.is_bookmarked }"
-            title="Save Job"
+            :title="replaceTerminology('Save Job')"
           >
             <i class="bi bi-bookmark-dash"></i>
           </button>
-          <Link :href="route('jobs.show', job.slug)" class="text-center apply-btn tran3s">
-            {{ trans("Details") }}
+          <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="text-center apply-btn tran3s">
+            {{ replaceTerminology(trans("Details")) }}
           </Link>
         </div>
       </div>

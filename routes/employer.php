@@ -9,10 +9,18 @@ Route::group(
     function () {
 
         Route::middleware('kyc_verified')->group(function () {
+            // Job routes (legacy)
             Route::post('job-application/seen', [Employer\JobController::class, 'updateSeenAt'])->name('job-application-seen');
             Route::resource('jobs', Employer\JobController::class);
             Route::get('job-applicants', [Employer\JobController::class, 'applicants'])->name('job-applicants');
             Route::get('job-reviews', [Employer\JobController::class, 'reviews'])->name('job-reviews');
+            
+            // Opportunity routes (new platform)
+            Route::post('opportunity-application/seen', [Employer\OpportunityController::class, 'updateSeenAt'])->name('opportunity-application-seen');
+            Route::resource('opportunities', Employer\OpportunityController::class);
+            Route::get('opportunity-applicants', [Employer\OpportunityController::class, 'applicants'])->name('opportunity-applicants');
+            Route::get('opportunity-reviews', [Employer\OpportunityController::class, 'reviews'])->name('opportunity-reviews');
+            
             Route::resource('candidate-reviews', Employer\CandidateReviewController::class)->only('store');
             Route::post('hire-candidate', [Employer\EmployerPanelController::class, 'hireCandidate'])->name('hire-candidate');
         });

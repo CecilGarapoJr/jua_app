@@ -7,6 +7,7 @@ import moment from "moment";
 import { computed, onMounted } from "vue";
 import JobIntro from "../../Candidate/Partials/JobIntro.vue";
 import trans from "@/Composables/transComposable";
+import { replaceTerminology } from '@/Utils/terminologyMapping';
 
 import JobApplicationModal from "@/Pages/Web/Job/Partials/JobApplyModal.vue";
 
@@ -16,6 +17,24 @@ const props = defineProps(["job", "jobs", "alreadyApplied", "seo"]);
 
 const { authUser, formatNumber } = sharedComposable();
 const socials = computed(() => props.job.user?.meta.social);
+
+// Create a computed property for SEO metadata that uses the appropriate terminology
+const dynamicSeo = computed(() => {
+  const isOpportunity = props.job.type && !props.job.type.startsWith('job_');
+  const seoData = { ...props.seo };
+  
+  // Replace job-specific terms in SEO metadata
+  if (isOpportunity) {
+    if (seoData.title) {
+      seoData.title = replaceTerminology(seoData.title);
+    }
+    if (seoData.description) {
+      seoData.description = replaceTerminology(seoData.description);
+    }
+  }
+  
+  return seoData;
+});
 
 onMounted(() => {
   if ($(".related-job-slider").length) {
@@ -50,20 +69,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <Seo :metaData="seo" />
+  <Seo :metaData="dynamicSeo" />
   <Breadcrumb
-    :title="job.title"
+    :title="replaceTerminology(job.type && !job.type.startsWith('job_') ? 'Opportunity Details' : 'Job Details')"
     :href="route('companies.show', job.user.username)"
     :href-text="job.user.meta.company.name"
     :subtitle="job.title"
   />
   <!-- /.inner-banner-one -->
 
-  <section class="job-details lg-pt-60 pb-130 lg-pb-80 pt-60">
+  <section class="job-details lg-pt-60 pb-130 lg-pb-80 pt-60" :class="{'opportunity-details': job.type && !job.type.startsWith('job_')}">
     <div class="container">
       <div class="row">
         <div class="col-xxl-9 col-xl-8">
-          <div class="details-post-data me-xxl-5 pe-xxl-4">
+          <div class="details-post-data me-xxl-5 pe-xxl-4" :class="{'opportunity-post-data': job.type && !job.type.startsWith('job_')}">
             <div class="post-date">
               {{ moment(job.updated_at).format("D MMM YYYY") }} by
               <Link
@@ -96,7 +115,7 @@ onMounted(() => {
                 >
                   1
                 </div>
-                <h4 class="block-title">{{ trans("Overview") }}</h4>
+                <h4 class="block-title">{{ replaceTerminology(trans("Overview")) }}</h4>
               </div>
               <p>
                 {{ job.short_description }}
@@ -111,7 +130,7 @@ onMounted(() => {
                   alt=""
                 />
                 <a target="_blank" :href="job.attachment">{{
-                  trans("Attachment")
+                  replaceTerminology(trans("Attachment"))
                 }}</a>
               </div>
             </div>
@@ -122,7 +141,7 @@ onMounted(() => {
                 >
                   2
                 </div>
-                <h4 class="block-title">{{ trans("Job Description") }}</h4>
+                <h4 class="block-title">{{ replaceTerminology(trans(job.type && !job.type.startsWith('job_') ? "Opportunity Description" : "Job Description")) }}</h4>
               </div>
 
               <div v-html="job.description" class="mt-30"></div>
@@ -134,7 +153,7 @@ onMounted(() => {
                 >
                   3
                 </div>
-                <h4 class="block-title">{{ trans("Required Skills") }}:</h4>
+                <h4 class="block-title">{{ replaceTerminology(trans(job.type && !job.type.startsWith('job_') ? "Required Qualifications" : "Required Skills")) }}:</h4>
               </div>
               <ul class="list-type-two style-none mb-15">
                 <li v-for="tag in job.tags" :key="tag.id">{{ tag.title }}</li>
@@ -145,7 +164,7 @@ onMounted(() => {
         </div>
 
         <div class="col-xxl-3 col-xl-4">
-          <div class="job-company-info ms-xl-5 ms-xxl-0 lg-mt-50">
+          <div class="job-company-info ms-xl-5 ms-xxl-0 lg-mt-50" :class="{'opportunity-company-info': job.type && !job.type.startsWith('job_')}">
             <img
               v-lazy="
                 job.user?.avatar == null
@@ -165,81 +184,156 @@ onMounted(() => {
               target="_blank"
               :href="job.user.meta.business.site_url"
               class="website-btn tran3s"
-              >{{ trans("Visit website") }}</a
+              >{{ replaceTerminology(trans("Visit website")) }}</a
             >
 
             <div class="border-top mt-40 pt-40">
               <ul class="job-meta-data row style-none">
-                <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Salary") }}</span>
-                  <div>
-                    <template
-                      v-if="
-                        job.salary_range &&
-                        job.salary_range.split('-')[0] > 0 &&
-                        job.salary_range.split('-')[1] > 0
-                      "
-                    >
-                      {{ formatNumber(job.salary_range.split("-")[0], 0) }}
-                      -
-                      {{ formatNumber(job.salary_range.split("-")[1], 0) }}
-                    </template>
-                    <template v-else>{{ trans("Negotiable ") }} </template>
-                  </div>
-                </li>
-                <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Currency") }}</span>
-                  <div>{{ job.currency }}</div>
-                </li>
-                <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Duration") }}</span>
-                  <div>{{ job.salary_type }}</div>
-                </li>
+                <!-- Job-specific fields -->
+                <template v-if="job.type && job.type.startsWith('job_')">
+                  <li class="col-xl-6 col-md-4 col-sm-6">
+                    <span>{{ replaceTerminology(trans("Salary")) }}</span>
+                    <div>
+                      <template
+                        v-if="
+                          job.salary_range &&
+                          job.salary_range.split('-')[0] > 0 &&
+                          job.salary_range.split('-')[1] > 0
+                        "
+                      >
+                        {{ formatNumber(job.salary_range.split("-")[0], 0) }}
+                        -
+                        {{ formatNumber(job.salary_range.split("-")[1], 0) }}
+                      </template>
+                      <template v-else>{{ replaceTerminology(trans("Negotiable")) }} </template>
+                    </div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6">
+                    <span>{{ replaceTerminology(trans("Currency")) }}</span>
+                    <div>{{ job.currency }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6">
+                    <span>{{ replaceTerminology(trans("Duration")) }}</span>
+                    <div>{{ replaceTerminology(job.salary_type) }}</div>
+                  </li>
+                </template>
+                
+                <!-- Scholarship-specific fields -->
+                <template v-else-if="job.type === 'scholarship'">
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.award_amount">
+                    <span>{{ replaceTerminology('Award Amount') }}</span>
+                    <div>{{ formatNumber(job.fields.award_amount, 0) }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.duration">
+                    <span>{{ replaceTerminology('Duration') }}</span>
+                    <div>{{ job.fields.duration }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.deadline">
+                    <span>{{ replaceTerminology('Application Deadline') }}</span>
+                    <div>{{ job.fields.deadline }}</div>
+                  </li>
+                </template>
+                
+                <!-- Grant-specific fields -->
+                <template v-else-if="job.type === 'grant'">
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.grant_amount">
+                    <span>{{ replaceTerminology('Grant Amount') }}</span>
+                    <div>{{ formatNumber(job.fields.grant_amount, 0) }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.funding_type">
+                    <span>{{ replaceTerminology('Funding Type') }}</span>
+                    <div>{{ job.fields.funding_type }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.deadline">
+                    <span>{{ replaceTerminology('Application Deadline') }}</span>
+                    <div>{{ job.fields.deadline }}</div>
+                  </li>
+                </template>
+                
+                <!-- Training-specific fields -->
+                <template v-else-if="job.type === 'training'">
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.duration">
+                    <span>{{ replaceTerminology('Duration') }}</span>
+                    <div>{{ job.fields.duration }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.format">
+                    <span>{{ replaceTerminology('Format') }}</span>
+                    <div>{{ job.fields.format }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.start_date">
+                    <span>{{ replaceTerminology('Start Date') }}</span>
+                    <div>{{ job.fields.start_date }}</div>
+                  </li>
+                </template>
+                
+                <!-- Internship-specific fields -->
+                <template v-else-if="job.type === 'internship'">
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.stipend">
+                    <span>{{ replaceTerminology('Stipend') }}</span>
+                    <div>{{ formatNumber(job.fields.stipend, 0) }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6">
+                    <span>{{ replaceTerminology(trans("Duration")) }}</span>
+                    <div>{{ job.fields?.duration || replaceTerminology(job.salary_type) }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.currency">
+                    <span>{{ replaceTerminology(trans("Currency")) }}</span>
+                    <div>{{ job.currency }}</div>
+                  </li>
+                </template>
+                
+                <!-- Default fields for other opportunity types -->
+                <template v-else>
+                  <li class="col-xl-6 col-md-4 col-sm-6">
+                    <span>{{ replaceTerminology('Type') }}</span>
+                    <div>{{ replaceTerminology(job.type) }}</div>
+                  </li>
+                  <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.fields?.duration">
+                    <span>{{ replaceTerminology('Duration') }}</span>
+                    <div>{{ job.fields.duration }}</div>
+                  </li>
+                </template>
                 <li class="col-xl-6 col-md-4 col-sm-6">
                   <span>{{ trans("Expertise") }}</span>
                   <div>{{ job.expertise }}</div>
                 </li>
                 <li
                   class="col-xl-6 col-md-4 col-sm-6"
-                  v-if="
-                    JSON.parse(job.meta).is_remote != '0' ||
-                    JSON.parse(job.meta).is_remote != false
-                  "
                 >
-                  <span>{{ trans("Location") }}</span>
-                  <div>{{ trans("Remote") }}</div>
-                </li>
-                <li class="col-xl-6 col-md-4 col-sm-6" v-else>
-                  <span>{{ trans("Location") }}</span>
+                  <span>{{ replaceTerminology(trans("Location")) }}</span>
                   <div>
-                    {{ job.country?.[0]?.name }}, {{ job.state?.[0]?.name }}
+                    <template v-if="JSON.parse(job.meta).is_remote != '0' && JSON.parse(job.meta).is_remote != false">
+                      {{ replaceTerminology(trans("Remote")) }}
+                    </template>
+                    <template v-else-if="job.country?.length">
+                      {{ job.country[0].name }}, {{ job.state[0].name }}
+                    </template>
+                    <template v-else>{{ replaceTerminology(trans("Remote")) }}</template>
+                  </div>
+                </li>
+                <li class="col-xl-6 col-md-4 col-sm-6" v-if="job.categories?.length">
+                  <span>{{ replaceTerminology(trans("Category")) }}</span>
+                  <div>
+                    {{ job.categories[0].title }}
                   </div>
                 </li>
                 <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Job Type") }}</span>
-                  <div>{{ job.type }}</div>
+                  <span>{{ replaceTerminology(trans("Opportunity Type")) }}</span>
+                  <div>{{ replaceTerminology(job.type) }}</div>
                 </li>
                 <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Date") }}</span>
+                  <span>{{ replaceTerminology(trans("Posted Date")) }}</span>
                   <div>{{ moment(job.updated_at).format("D MMM, YYYY") }}</div>
                 </li>
                 <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Experience") }}</span>
-                  <div>{{ job.experience }}</div>
-                </li>
-                <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Category") }}</span>
-                  <div>{{ job.service?.title }}</div>
-                </li>
-                <li class="col-xl-6 col-md-4 col-sm-6">
-                  <span>{{ trans("Deadline") }}</span>
+                  <span>{{ replaceTerminology(trans("Deadline")) }}</span>
                   <div>{{ moment(job.expired_at).format("D MMM, YYYY") }}</div>
                 </li>
               </ul>
 
               <div class="job-tags d-flex pt-15 flex-wrap">
                 <Link
-                  :href="`/job-category/${tag.slug}`"
+                  :href="job.type && !job.type.startsWith('job_') ? `/opportunity-category/${tag.slug}` : `/job-category/${tag.slug}`"
                   v-for="tag in job.tags"
                   :key="tag.id"
                   >{{ tag.title }}</Link
@@ -257,13 +351,13 @@ onMounted(() => {
                   class="btn-eight text-danger px-3 py-2"
                   disabled
                 >
-                  {{ trans("Already Applied") }}
+                  {{ replaceTerminology(trans("Already Applied")) }}
                 </button>
               </div>
 
               <div v-else-if="job.is_expired" class="mt-3 text-center">
                 <p class="text-danger fw-bold">
-                  {{ trans("Deadline Expired") }}
+                  {{ replaceTerminology(trans("Deadline Expired")) }}
                 </p>
               </div>
 
@@ -275,7 +369,7 @@ onMounted(() => {
                     class="btn-one w-100 mt-25"
                     target="_blank"
                     ><i class="bx bx-link-external"></i>
-                    {{ trans("Apply Now") }}</a
+                    {{ replaceTerminology(trans("Apply Now")) }}</a
                   >
                 </div>
                 <button
@@ -284,12 +378,12 @@ onMounted(() => {
                   data-bs-toggle="modal"
                   data-bs-target="#applyModal"
                 >
-                  {{ trans("Apply Now") }}
+                  {{ replaceTerminology(trans("Apply Now")) }}
                 </button>
               </div>
               <div v-else class="mt-3 text-center">
                 <Link class="btn-five" :href="route('login')">
-                  {{ trans("Login To Apply") }}
+                  {{ replaceTerminology(trans("Login To Apply")) }}
                 </Link>
               </div>
             </div>
@@ -300,16 +394,17 @@ onMounted(() => {
     </div>
   </section>
 
-  <JobApplicationModal :job="job" />
+  <JobApplicationModal :job="job" :key="job.id" />
 
   <section
     class="related-job-section pt-90 lg-pt-70 pb-120 lg-pb-70"
+    :class="{'related-opportunity-section': job.type && !job.type.startsWith('job_')}"
     v-if="jobs?.length > 0"
   >
     <div class="container">
       <div class="position-relative">
         <div class="title-three text-md-start mb-55 lg-mb-40 text-center">
-          <h2 class="main-font">{{ trans("Related Jobs") }}</h2>
+          <h2 class="main-font">{{ replaceTerminology(trans(job.type && !job.type.startsWith('job_') ? "Related Opportunities" : "Related Jobs")) }}</h2>
         </div>
 
         <div class="related-job-slider">

@@ -2,6 +2,7 @@
 import sharedComposable from "@/Composables/sharedComposable";
 import { useForm } from "@inertiajs/vue3";
 import trans from '@/Composables/transComposable';
+import { replaceTerminology } from '@/Utils/terminologyMapping';
 const { formatNumber, textExcerpt } = sharedComposable();
 defineProps({
   items: {
@@ -14,7 +15,9 @@ defineProps({
 
 const toggleBookmark = (job) => {
   let form = useForm({});
-  form.post(route("jobs.bookmark", job), {
+  // Use the new opportunity routes but maintain backward compatibility
+  const routeName = job.type && !job.type.startsWith('job_') ? 'opportunities.bookmark' : 'jobs.bookmark';
+  form.post(route(routeName, job), {
     preserveScroll: true,
     onSuccess: () => {},
   });
@@ -27,7 +30,8 @@ const toggleBookmark = (job) => {
       class="job-list-two style-two position-relative"
       :class="{ favourite: job.featured_expire_at }"
     >
-      <Link :href="route('jobs.show', job.slug)" class="logo"
+      <!-- Use dynamic route based on opportunity type -->
+      <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="logo"
         ><img
           v-lazy="
             job.user?.avatar == null
@@ -42,21 +46,26 @@ const toggleBookmark = (job) => {
         @click="toggleBookmark(job)"
         class="text-center save-btn rounded-circle tran3s me-3"
         :class="{ 'bg-success': job.is_bookmarked }"
-        title="Save Job"
+        :title="replaceTerminology('Save Job')"
       >
         <i class="bi bi-bookmark-dash"></i>
       </button>
       <div>
-        <a :href="route('jobs.show', job.slug)" class="job-duration fw-500">{{
-          job.type
-        }}</a>
+        <!-- Use dynamic route based on opportunity type -->
+        <a :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="job-duration fw-500">
+          {{ replaceTerminology(job.type) }}
+        </a>
       </div>
       <div>
-        <Link :href="route('jobs.show', job.slug)" class="title fw-500 tran3s">
+        <!-- Use dynamic route based on opportunity type -->
+        <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="title fw-500 tran3s">
           {{ textExcerpt(job.title, 50) }}</Link
         >
       </div>
-      <div class="job-salary">
+      
+      <!-- Conditional display based on opportunity type -->
+      <!-- Job-specific fields -->
+      <div class="job-salary" v-if="job.type && job.type.startsWith('job_')">
         <span
           class="fw-500 text-dark"
           v-if="
@@ -69,19 +78,56 @@ const toggleBookmark = (job) => {
           -
           {{ formatNumber(job.salary_range.split("-")[1]) }}
         </span>
-        <span class="fw-500 text-dark" v-else>{{ trans("Negotiable ") }}</span>
+        <span class="fw-500 text-dark" v-else>{{ replaceTerminology(trans("Negotiable")) }}</span>
         /
-        {{ job.salary_type }}
+        {{ replaceTerminology(job.salary_type) }}
       </div>
+      
+      <!-- Scholarship-specific display -->
+      <div class="job-salary" v-else-if="job.type === 'scholarship'">
+        <span class="fw-500 text-dark" v-if="job.fields?.award_amount">
+          {{ replaceTerminology('Award Amount') }}: {{ formatNumber(job.fields.award_amount, 0) }}
+        </span>
+      </div>
+      
+      <!-- Grant-specific display -->
+      <div class="job-salary" v-else-if="job.type === 'grant'">
+        <span class="fw-500 text-dark" v-if="job.fields?.grant_amount">
+          {{ replaceTerminology('Grant Amount') }}: {{ formatNumber(job.fields.grant_amount, 0) }}
+        </span>
+      </div>
+      
+      <!-- Training-specific display -->
+      <div class="job-salary" v-else-if="job.type === 'training'">
+        <span class="fw-500 text-dark" v-if="job.fields?.duration">
+          {{ replaceTerminology('Duration') }}: {{ job.fields.duration }}
+        </span>
+      </div>
+      
+      <!-- Internship-specific display -->
+      <div class="job-salary" v-else-if="job.type === 'internship'">
+        <span class="fw-500 text-dark" v-if="job.fields?.stipend">
+          {{ replaceTerminology('Stipend') }}: {{ formatNumber(job.fields.stipend, 0) }}
+        </span>
+      </div>
+      
+      <!-- Default display for other types -->
+      <div class="job-salary" v-else>
+        <span class="fw-500 text-dark">
+          {{ replaceTerminology(job.type) }}
+        </span>
+      </div>
+      
       <div class="mt-auto d-flex align-items-center justify-content-between">
         <div class="job-location" v-if="!job.country?.[0]?.name">
-          {{ trans("Remote") }}
+          {{ replaceTerminology(trans("Remote")) }}
         </div>
         <div class="job-location" v-else>
           {{ job.country?.[0]?.name ?? "" }},{{ job.state?.[0]?.name ?? "" }}
         </div>
-        <Link :href="route('jobs.show', job.slug)" class="text-center apply-btn tran3s">
-          {{ trans("Details") }}
+        <!-- Use dynamic route based on opportunity type -->
+        <Link :href="route(job.type && !job.type.startsWith('job_') ? 'opportunities.show' : 'jobs.show', job.slug)" class="text-center apply-btn tran3s">
+          {{ replaceTerminology(trans("Details")) }}
         </Link>
       </div>
     </div>

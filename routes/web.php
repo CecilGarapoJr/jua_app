@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\Web\JobController;
+use App\Http\Controllers\Web\OpportunityController;
 use App\Http\Controllers\Auth\SocialLoginController;
 
 require __DIR__ . '/auth.php';
@@ -29,11 +30,19 @@ Route::get('blogs/tag/{slug}/{id}',      [WEB\BlogController::class, 'tag']);
 Route::resource('/companies', WEB\CompanyController::class)
     ->only(['index', 'show']);
 
+// Job routes (legacy)
 Route::resource('/jobs', WEB\JobController::class)
     ->names('jobs')->only(['index', 'show']);
 Route::post('/jobs/{job}/bookmark', [WEB\JobController::class, 'toggleBookmark'])->name('jobs.bookmark')->middleware('auth');
 Route::get('/jobs/{job}/apply', [WEB\JobController::class, 'apply'])->name('jobs.apply')->middleware('auth');
 Route::post('/jobs/{job}/apply', [WEB\JobController::class, 'applyStore'])->name('jobs.apply')->middleware('auth');
+
+// Opportunity routes (new platform)
+Route::resource('/opportunities', WEB\OpportunityController::class)
+    ->names('opportunities')->only(['index', 'show']);
+Route::post('/opportunities/{opportunity}/bookmark', [WEB\OpportunityController::class, 'toggleBookmark'])->name('opportunities.bookmark')->middleware('auth');
+Route::get('/opportunities/{opportunity}/apply', [WEB\OpportunityController::class, 'apply'])->name('opportunities.apply')->middleware('auth');
+Route::post('/opportunities/{opportunity}/apply', [WEB\OpportunityController::class, 'applyStore'])->name('opportunities.apply')->middleware('auth');
 
 
 Route::get('/candidates/{candidate}/visit', [WEB\CandidateController::class, 'visit'])->name('candidates.visit');
@@ -42,8 +51,13 @@ Route::resource('/candidates', WEB\CandidateController::class)->only(['index', '
 Route::post('/candidates/{user}/bookmark', [WEB\CandidateController::class, 'toggleBookmark'])->name('candidates.bookmark')->middleware('auth');
 Route::post('/candidates/{candidate}/send-mail', [WEB\CandidateController::class, 'sendMail'])->name('candidates.send-mail');
 
+// Job category and service routes (legacy)
 Route::get('job-category/{slug}', [JobController::class, 'index'])->name('job-categories.show');
 Route::get('job-service/{slug}', [JobController::class, 'index'])->name('job-services.show');
+
+// Opportunity category and service routes (new platform)
+Route::get('opportunity-category/{slug}', [WEB\OpportunityController::class, 'index'])->name('opportunity-categories.show');
+Route::get('opportunity-service/{slug}', [WEB\OpportunityController::class, 'index'])->name('opportunity-services.show');
 Route::get('/page/{slug}',          [WEB\WebController::class, 'page']);
 
 Route::post('/credit/pay', [Web\CreditPayController::class, 'store'])->name('credit.pay');

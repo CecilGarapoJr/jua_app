@@ -17,10 +17,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
 	Route::resource('blog', 	     			ADMIN\BlogController::class);
 	Route::resource('category', 	     		ADMIN\CategoryController::class);
 	Route::resource('faq-category', 	     	ADMIN\FaqCategoryController::class);
+	// Job routes (legacy)
 	Route::resource('job', 	     				ADMIN\JobController::class)->except(['edit']);
+
+	// Opportunity routes (new platform)
+	Route::resource('opportunity', 	     		ADMIN\OpportunityController::class)->except(['edit']);
+	// Job service, category, and skills routes (legacy)
 	Route::resource('job-service', 	     		ADMIN\JobServiceController::class);
 	Route::resource('job-category', 	     	ADMIN\JobCategoryController::class);
-	Route::resource('job-skills', 	     			ADMIN\JobTagController::class);
+	Route::resource('job-skills', 	     		ADMIN\JobTagController::class);
+	
+	// Opportunity service, category, and skills routes (new platform)
+	Route::resource('opportunity-service', 		ADMIN\JobServiceController::class);
+	Route::resource('opportunity-category', 		ADMIN\JobCategoryController::class);
+	Route::resource('opportunity-skills', 		ADMIN\JobTagController::class);
 	Route::resource('tag', 	     		        ADMIN\TagController::class);
 	Route::resource('language',      			ADMIN\LanguageController::class);
 	Route::resource('currency',      			ADMIN\CurrencyController::class);

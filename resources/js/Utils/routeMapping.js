@@ -27,7 +27,17 @@ export const mapRouteToBackend = (routeName) => {
     .replace(/opportunity\./g, 'job.')
     .replace(/opportunities\./g, 'jobs.')
     .replace(/applicants\./g, 'candidates.')
-    .replace(/organisations\./g, 'companies.');
+    .replace(/organisations\./g, 'companies.')
+    
+    // Opportunity type mappings
+    .replace(/opportunity-job-full-time/g, 'job-full-time')
+    .replace(/opportunity-job-part-time/g, 'job-part-time')
+    .replace(/opportunity-job-contract/g, 'job-contract')
+    .replace(/opportunity-job-temporary/g, 'job-temporary')
+    .replace(/opportunity-internship/g, 'job-internship')
+    .replace(/opportunity-scholarship/g, 'scholarship')
+    .replace(/opportunity-grant/g, 'grant')
+    .replace(/opportunity-training/g, 'training');
 };
 
 /**
@@ -48,7 +58,17 @@ export const mapRouteToFrontend = (routeName) => {
     .replace(/job\./g, 'opportunity.')
     .replace(/jobs\./g, 'opportunities.')
     .replace(/candidates\./g, 'applicants.')
-    .replace(/companies\./g, 'organisations.');
+    .replace(/companies\./g, 'organisations.')
+    
+    // Opportunity type mappings
+    .replace(/job-full-time/g, 'opportunity-job-full-time')
+    .replace(/job-part-time/g, 'opportunity-job-part-time')
+    .replace(/job-contract/g, 'opportunity-job-contract')
+    .replace(/job-temporary/g, 'opportunity-job-temporary')
+    .replace(/job-internship/g, 'opportunity-internship')
+    .replace(/scholarship/g, 'opportunity-scholarship')
+    .replace(/grant/g, 'opportunity-grant')
+    .replace(/training/g, 'opportunity-training');
 };
 
 /**
@@ -98,6 +118,16 @@ export const routeTerminologyMap = {
   'job-reviews': 'opportunity-reviews',
   'candidate-reviews': 'applicant-reviews',
   'company-reviews': 'organisation-reviews',
+  
+  // New opportunity-specific route mappings
+  'job-full-time': 'opportunity-job-full-time',
+  'job-part-time': 'opportunity-job-part-time',
+  'job-contract': 'opportunity-job-contract',
+  'job-temporary': 'opportunity-job-temporary',
+  'job-internship': 'opportunity-internship',
+  'scholarship': 'opportunity-scholarship',
+  'grant': 'opportunity-grant',
+  'training': 'opportunity-training',
   'saved-candidates': 'saved-applicants',
   'hire-candidate': 'hire-applicant'
 };
