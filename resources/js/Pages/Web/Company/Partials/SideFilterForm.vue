@@ -40,12 +40,12 @@ onMounted(() => {
             href="#collapseSemploye"
             role="button"
             aria-expanded="false"
-            >{{ trans('Search Company') }}</a
+            >Search Organisation</a
           >
           <div class="show collapse" id="collapseSemploye">
             <div class="main-body">
               <form @submit.prevent="filter.submit" class="input-box position-relative">
-                <input v-model="filter.filterForm.keyword" type="text" placeholder="Company Name" />
+                <input v-model="filter.filterForm.keyword" type="text" placeholder="Organisation Name" />
                 <button type="submit">
                   <i class="bi bi-search"></i>
                 </button>
@@ -61,7 +61,7 @@ onMounted(() => {
             href="#collapseCstatus"
             role="button"
             aria-expanded="false"
-            >{{ trans('Company Status') }}</a
+            >Organisation Status</a
           >
           <div class="show collapse" id="collapseCstatus">
             <div class="main-body">

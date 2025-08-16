@@ -96,7 +96,7 @@ const socials = computed(() => meta.value.social)
                     </ul>
                   </div>
                   <div>
-                    <span class="font-semibold">{{ trans('Service') }}</span>
+                    <span class="font-semibold">{{ trans('Sector') }}</span>
                     <div>
                       {{ job.service?.title }}
                     </div>

@@ -24,7 +24,7 @@ onMounted(() => {
             <div class="col-lg-4">
               <div class="filter-block pb-50 lg-pb-20">
                 <div class="filter-title fw-500 text-dark">
-                  {{ trans('Search Company') }}
+                  Search Organisation
                 </div>
                 <form @submit.prevent="filter.submit" class="input-box position-relative">
                   <input
@@ -91,12 +91,12 @@ onMounted(() => {
             <div class="col-lg-4">
               <div class="filter-block pb-50 lg-pb-20">
                 <div class="filter-title fw-500 text-dark">
-                  {{ trans('Company Size') }}
+                  Organisation Size
                 </div>
                 <NiceSelect
                   v-model="filter.filterForm.team"
                   :options="filter.teamSizes"
-                  placeholder="Company Size"
+                  placeholder="Organisation Size"
                 />
               </div>
               <!-- /.filter-block -->
@@ -104,7 +104,7 @@ onMounted(() => {
             <div class="col-lg-4">
               <div class="filter-block pb-25">
                 <div class="filter-title fw-500 text-dark mt-1">
-                  {{ trans('Company Status') }}
+                  Organisation Status
                 </div>
                 <div class="main-body">
                   <ul class="style-none filter-input d-flex">

@@ -1,7 +1,7 @@
 <script setup>
-import JobSearchForm from '@/Components/JobSearchForm.vue'
 import { computed } from 'vue'
 import { useThemeLoaderStore } from '@/Store/themeLoaderStore'
+import { replaceTerminology } from '@/Utils/terminologyMapping'
 const themeLoader = useThemeLoaderStore()
 const innerBannerColor = computed(() => {
   const themes = ['One', 'Six']
@@ -19,23 +19,14 @@ const innerBannerColor = computed(() => {
         <div class="row">
           <div class="col-xl-6 m-auto text-center">
             <div class="title-two">
-              <h2>{{ trans('Job Listing') }}</h2>
+              <h2>Explore Opportunities</h2>
             </div>
             <p class="mt-30 lg-mt-20 mb-35 lg-mb-20 text-lg">
-              {{ trans('We delivered blazing fast & striking work solution') }}
+              Take a look at the opportunities available on Jua
             </p>
           </div>
         </div>
-        <div class="position-relative">
-          <div class="row">
-            <div class="col-xl-9 col-lg-8 m-auto">
-              <div class="job-search-one position-relative">
-                <JobSearchForm />
-              </div>
-              <!-- /.job-search-one -->
-            </div>
-          </div>
-        </div>
+
       </div>
     </div>
     <img

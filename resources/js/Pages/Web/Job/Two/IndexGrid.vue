@@ -63,7 +63,7 @@ onMounted(() => {
             >
               <div class="total-job-found">
                 {{ trans('All') }} <span class="text-dark">{{ openings.total }}</span>
-                {{ trans('jobs found') }}
+                Opportunities found
               </div>
               <div class="d-flex align-items-center">
                 <div class="short-filter d-flex align-items-center">
@@ -109,7 +109,7 @@ onMounted(() => {
             <!-- /.accordion-box -->
 
             <div v-if="!openings.total" class="alert alert-info mt-30 text-center" role="alert">
-              {{ trans('No jobs found') }}
+              No Opportunities found
             </div>
 
             <Paginate :links="openings.links" />

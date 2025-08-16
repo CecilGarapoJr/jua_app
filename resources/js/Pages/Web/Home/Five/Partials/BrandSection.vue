@@ -53,7 +53,7 @@ onMounted(async () => {
   <div class="container">
     <div class="partner-logos pt-120 lg-pt-80 lg-pb-40 pb-80">
       <div class="title fw-500 text-dark text-uppercase mb-65 lg-mb-30 text-center">
-       {{ trans('Trusted by') }} <span>{{ trans('500+') }}</span> {{ trans('companies') }}
+       We partner top organisations
       </div>
       <div class="partner-slider">
         <div class="item" v-for="(item, index) in brands" :key="index">

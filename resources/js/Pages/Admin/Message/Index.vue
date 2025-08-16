@@ -58,8 +58,8 @@ const conversationStats = [
         <table class="table">
           <thead>
             <tr>
-              <th>{{ trans('Employer') }}</th>
-              <th>{{ trans('Candidate') }}</th>
+              <th>{{ trans('Organisation') }}</th>
+              <th>{{ trans('Applicant') }}</th>
 
               <th class="text-left">{{ trans('Created At') }}</th>
               <th class="text-left">{{ trans('Replies') }}</th>

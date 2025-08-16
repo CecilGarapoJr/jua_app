@@ -83,7 +83,7 @@ const menuGroups = [
         url: route('admin.job.index')
       },
       {
-        name: 'Job Services',
+        name: 'Sectors',
         url: route('admin.job-service.index')
       },
       {

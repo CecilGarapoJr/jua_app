@@ -193,7 +193,7 @@ const createdDescription = (template) => {
     </div>
     <div class="row mb-30">
       <div class="col-md-4">
-        <label class="mb-1" for="">{{ trans('Service') }}*</label>
+        <label class="mb-1" for="">Sector*</label>
         <Multiselect
           @deselect="form.category_id = ''"
           @clear="
@@ -213,7 +213,7 @@ const createdDescription = (template) => {
           :options="services"
           label="title"
           valueProp="id"
-          placeholder="Select Service"
+          placeholder="Select Sector"
           :required="true"
         />
         <InputFieldError :message="form.errors.service_id" />

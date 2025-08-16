@@ -20,7 +20,7 @@ onMounted(async () => {
         <div class="row">
           <div class="col-xl-7">
             <div class="title-one lg-mb-10 mb-20">
-              <h2 class="main-font">{{ $page.props.app_name }} {{ trans('Guides') }}</h2>
+              <h2 class="main-font">Pathways</h2>
             </div>
           </div>
         </div>

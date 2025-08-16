@@ -22,10 +22,10 @@ onMounted(() => {
 <template>
   <Seo :metaData="seo" />
   <Breadcrumb
-    :title="trans('Company')"
+    :title="'Organisations'"
     href="/"
     :href-text="trans('Home')"
-    :subtitle="trans('Companies')"
+    :subtitle="'Organisations'"
   />
 
   <!-- /.inner-banner-one -->
@@ -41,7 +41,7 @@ onMounted(() => {
               <div class="total-job-found">
                 {{ trans('All') }}
                 <span class="text-dark fw-500">{{ companies.total }}</span>
-                {{ trans(' company found') }}
+                Organisation found
               </div>
               <div class="d-flex align-items-center">
                 <div class="short-filter d-flex align-items-center">
@@ -232,7 +232,7 @@ onMounted(() => {
             </template>
 
             <div class="alert alert-info mt-30 text-center" role="alert" v-else>
-              {{ trans('No company found') }}
+              No Organisation found
             </div>
           </div>
         </div>

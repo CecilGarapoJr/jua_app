@@ -96,11 +96,21 @@ const updateCategory = () => {
     }
   )
 }
+// Map breadcrumb segment labels to UI-friendly text
+const uiSegments = computed(() => {
+  if (!props.segments) return []
+  return props.segments.map((s) => {
+    const lower = String(s).toLowerCase()
+    if (lower === 'job-category' || lower === 'job category') return 'Sector'
+    return s
+  })
+})
+
 </script>
 
 <template>
   <main class="container p-4 sm:p-6">
-    <HeaderSegment title="Opportunity Categories" :segments="segments" :buttons="buttons" />
+    <HeaderSegment title="Opportunity Categories" :segments="uiSegments" :buttons="buttons" />
     <div class="space-y-6">
       <Overview :items="stats" grid="3" />
 
@@ -109,7 +119,7 @@ const updateCategory = () => {
           <thead>
             <tr>
               <th class="">{{ trans('Name') }}</th>
-              <th class="">{{ trans('Service Title') }}</th>
+              <th class="">{{ trans('Sector Title') }}</th>
               <th class="">{{ trans('Slug') }}</th>
               <th class="">{{ trans('Status') }}</th>
               <th class="">{{ trans('Featured') }}</th>
@@ -232,9 +242,9 @@ const updateCategory = () => {
           />
         </div>
         <div class="mb-2">
-          <label class="label mb-2">{{ trans('Service') }}</label>
+          <label class="label mb-2">Sector</label>
           <select required v-model="categoryForm.category_id" class="select" name="category_id">
-            <option value="" selected disabled>SELECT SERVICE</option>
+            <option value="" selected disabled>SELECT SECTOR</option>
             <option :value="service.id" v-for="service in allServices" :key="service.id">
               {{ service.title }}
             </option>
@@ -296,7 +306,7 @@ const updateCategory = () => {
           <input v-model="editForm.title" type="text" class="input" required />
         </div>
         <div class="mb-2">
-          <label class="label mb-2">{{ trans('Service') }}</label>
+          <label class="label mb-2">Sector</label>
           <select required v-model="editForm.category_id" class="select">
             <option
               :selected="editForm.category_id == service.id"

@@ -57,8 +57,8 @@ onMounted(() => {
           <div class="job-post-item-wrapper ms-xxl-5 ms-xl-3">
             <div class="upper-filter d-flex justify-content-between align-items-center mb-20">
               <div class="total-job-found">
-                {{ trans('All') }} <span class="text-dark">{{ openings.total }}</span>
-                {{ trans('jobs found') }}
+                All <span class="text-dark">{{ openings.total }}</span>
+                Opportunities found
               </div>
               <div class="d-flex align-items-center">
                 <div class="short-filter d-flex align-items-center">

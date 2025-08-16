@@ -14,10 +14,10 @@ const props = defineProps(['blogs', 'categories', 'recent_blogs', 'tags', 'meta'
 <template>
   <Seo :metaData="meta" />
   <Breadcrumb
-    :title="trans('Blog')"
+    :title="'Pathways'"
     href="/"
-    :href-text="trans('Home')"
-    :subtitle="trans('Blog')"
+    :href-text="'Home'"
+    :subtitle="'Pathways'"
   />
   <section class="blog-section pt-100 lg-pt-80 pb-120 lg-pb-80">
     <div class="container">

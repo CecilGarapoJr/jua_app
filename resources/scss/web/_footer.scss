@@ -2,8 +2,21 @@
 .footer-with-bg {
     background: #F4FAF7;
 }
+
+@media screen and (max-width: 991px) {
+  .footer-one {
+    .logo img { max-height: 36px; }
+  }
+}
 .footer-one {
     padding-top: 100px;
+    // Constrain footer logo image size (applies to light/dark variants)
+    .logo img {
+        max-height: 42px;
+        width: auto;
+        height: auto;
+        display: block;
+    }
     .email {
         font-size: 18px;
         color: $color-three;
@@ -26,7 +39,7 @@
     .footer-newsletter form {
         position: relative;
         height: 60px;
-        background: rgba($color: #000000, $alpha: 0.04);
+        background: rgba($color: $text-dark, $alpha: 0.04);
         border-radius: 7px;
         input {
             width: 100%;
@@ -54,7 +67,7 @@
             }
         }
         &.border-style {
-            border: 1px solid #000;
+            border: 1px solid $text-dark;
             button {
                 background: $color-three;
                 color: #fff;
@@ -72,7 +85,7 @@
     .bottom-footer {
         padding: 40px 0 25px;
         .social-icon a {
-            color: rgba($color: #000000, $alpha: 0.6);
+            color: rgba($color: $text-dark, $alpha: 0.6);
             font-size: 16px;
             margin-left: 22px;
             @include transition(0.2s);
@@ -82,7 +95,7 @@
         }
         .bottom-nav a {
             font-weight: 500;
-            color:#000;
+            color:$text-dark;
             margin-right: 15px;
             &:hover {
                 text-decoration: underline;

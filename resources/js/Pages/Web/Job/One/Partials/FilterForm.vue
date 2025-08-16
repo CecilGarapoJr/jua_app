@@ -3,6 +3,7 @@ import LabelWithAjaxLoader from '@/Components/LabelWithAjaxLoader.vue'
 import NiceSelect from '@/Components/NiceSelect.vue'
 import { useJobFiltersStore } from '@/Store/jobFilterStore'
 import { onMounted, computed } from 'vue'
+import { replaceTerminology } from '@/Utils/terminologyMapping'
 
 const filter = useJobFiltersStore()
 
@@ -41,7 +42,7 @@ const inputRangePercentage = computed(() => {
       aria-label="Close"
     ></button>
     <div class="main-title fw-500 text-dark">
-      {{ trans('Filter By') }}
+      {{ replaceTerminology(trans('Filter By')) }}
     </div>
     <div class="light-bg border-20 pt-25 pb-30 mt-20 pe-4 ps-4">
       <div class="filter-block bottom-line pb-25">
@@ -51,12 +52,12 @@ const inputRangePercentage = computed(() => {
           href="#collapseSemploye"
           role="button"
           aria-expanded="false"
-          >{{ trans('Search Job') }}</a
+          >{{ replaceTerminology(trans('Search Job')) }}</a
         >
         <div class="show collapse" id="collapseSemploye">
           <div class="main-body">
             <div class="input-box position-relative">
-              <input v-model="filter.filterForm.keyword" type="text" placeholder="Job Title" />
+              <input v-model="filter.filterForm.keyword" type="text" :placeholder="replaceTerminology('Job Title')" />
             </div>
           </div>
         </div>
@@ -68,7 +69,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseLocation"
           role="button"
           aria-expanded="false"
-          >{{ trans('Location') }}</a
+          >{{ replaceTerminology(trans('Location')) }}</a
         >
         <div class="show collapse" id="collapseLocation">
           <div class="main-body">
@@ -80,7 +81,7 @@ const inputRangePercentage = computed(() => {
                   @change="filter.setRemote(true)"
                   :checked="filter.filterForm.is_remote === true"
                 />
-                <label>{{ trans('Remote') }} </label>
+                <label>{{ replaceTerminology(trans('Remote')) }} </label>
               </li>
             </ul>
             <template v-if="!filter.filterForm.is_remote">
@@ -119,7 +120,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseJobType"
           role="button"
           aria-expanded="false"
-          >{{ trans('Job Type') }}</a
+          >{{ replaceTerminology(trans('Job Type')) }}</a
         >
         <div class="show collapse" id="collapseJobType">
           <div class="main-body">
@@ -132,7 +133,7 @@ const inputRangePercentage = computed(() => {
                   :checked="filter.filterForm.job_type === job.type"
                 />
                 <label
-                  >{{ job.type }} <span>{{ job.count }}</span></label
+                  >{{ replaceTerminology(job.type) }} <span>{{ job.count }}</span></label
                 >
               </li>
             </ul>
@@ -147,7 +148,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseExp"
           role="button"
           aria-expanded="false"
-          >{{ trans('Experience') }}</a
+          >{{ replaceTerminology(trans('Experience')) }}</a
         >
         <div class="show collapse" id="collapseExp">
           <div class="main-body">
@@ -161,7 +162,7 @@ const inputRangePercentage = computed(() => {
                   :value="job.experience"
                 />
                 <label
-                  >{{ job.experience }} <span>{{ job.count }}</span></label
+                  >{{ replaceTerminology(job.experience) }} <span>{{ job.count }}</span></label
                 >
               </li>
             </ul>
@@ -176,7 +177,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseSalary"
           role="button"
           aria-expanded="false"
-          >{{ trans('Salary') }}</a
+          >{{ replaceTerminology(trans('Salary')) }}</a
         >
         <div class="show collapse" id="collapseSalary">
           <div class="main-body">
@@ -241,7 +242,7 @@ const inputRangePercentage = computed(() => {
                   name="jobDuration"
                   value="Weekly"
                 />
-                <label>{{ trans('Weekly') }}</label>
+                <label>{{ replaceTerminology(trans('Weekly')) }}</label>
               </li>
               <li>
                 <input
@@ -250,7 +251,7 @@ const inputRangePercentage = computed(() => {
                   name="jobDuration"
                   value="Monthly"
                 />
-                <label>{{ trans('Monthly') }}</label>
+                <label>{{ replaceTerminology(trans('Monthly')) }}</label>
               </li>
               <li>
                 <input
@@ -259,7 +260,7 @@ const inputRangePercentage = computed(() => {
                   name="jobDuration"
                   value="Hourly"
                 />
-                <label>{{ trans('Hourly') }}</label>
+                <label>{{ replaceTerminology(trans('Hourly')) }}</label>
               </li>
             </ul>
           </div>
@@ -273,7 +274,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseCategory"
           role="button"
           aria-expanded="false"
-          >{{ trans('Category') }}</a
+          >{{ replaceTerminology(trans('Category')) }}</a
         >
         <div class="show collapse" id="collapseCategory">
           <div class="main-body">
@@ -316,7 +317,7 @@ const inputRangePercentage = computed(() => {
           href="#collapseTag"
           role="button"
           aria-expanded="false"
-          >{{ trans('Skills') }}</a
+          >{{ replaceTerminology(trans('Tags')) }}</a
         >
         <div class="show collapse" id="collapseTag">
           <div class="main-body">
@@ -344,7 +345,7 @@ const inputRangePercentage = computed(() => {
               v-if="!filter.loading.skills && !filter.skills.length"
               class="text-muted small text-center"
             >
-              {{ trans('No items found') }}
+              {{ replaceTerminology(trans('No items found')) }}
             </div>
           </div>
         </div>
@@ -356,10 +357,10 @@ const inputRangePercentage = computed(() => {
         @click="filter.submit"
         class="btn-ten fw-500 w-100 tran3s mt-30 text-center text-white"
       >
-        {{ trans(' Apply Filter') }}
+        {{ replaceTerminology(trans('Apply Filter')) }}
       </button>
       <button @click="filter.clear" class="btn-nine fw-500 w-100 tran3s mt-30 text-center">
-        {{ trans('Clear Filter') }}
+        {{ replaceTerminology(trans('Clear Filter')) }}
       </button>
     </div>
   </div>

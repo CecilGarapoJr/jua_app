@@ -1,7 +1,6 @@
 // Font import
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&display=swap');
-@import url('../fonts/gordita/stylesheet.css');
-@import url('../fonts/bootstrap-icons-1.10.2/font.css');
+// Local Gordita and Bootstrap Icons imports removed (files not present). Fallback to system fonts & app-level icon CSS if needed.
 
 // Global Style
 ::-webkit-scrollbar{ width: 5px; }
@@ -176,19 +175,19 @@ hr {opacity: 0.09; margin: 5px 0;}
 }
 .btn-two {
   font-weight: 500;
-  color: #98BD00;
+  color: $color-one;
   position: relative;
   padding-right: 12px;
-  border-bottom: 2px solid #98BD00;
+  border-bottom: 2px solid $color-one;
   @include transition(0.3s);
   &:hover {
-    color: #98BD00;
+    color: $color-one;
     letter-spacing: 0.2px;
   }
 
   &:after {
-    border-bottom: 2px solid #98BD00;
-    border-right: 2px solid #98BD00;
+    border-bottom: 2px solid $color-one;
+    border-right: 2px solid $color-one;
     content: "";
     display: block;
     margin-top: -4px;
@@ -236,7 +235,7 @@ hr {opacity: 0.09; margin: 5px 0;}
   text-align: center;
   border-radius: 50px;
   color: #fff;
-  background: $color-three;
+  background: $color-one;
   @include transition(0.3s);
   &:hover {
     background: $color-one;
@@ -273,11 +272,11 @@ hr {opacity: 0.09; margin: 5px 0;}
     width: 8px;
   }
   &.dark {
-    color: #000;
-    border-bottom-color: #000;
+    color: $text-dark;
+    border-bottom-color: $text-dark;
     &:after {
-      border-bottom: 2px solid #000;
-      border-right: 2px solid #000;
+      border-bottom: 2px solid $text-dark;
+      border-right: 2px solid $text-dark;
     }
   }
 }
@@ -302,20 +301,20 @@ hr {opacity: 0.09; margin: 5px 0;}
 .btn-eight {
   display: inline-block;
   padding: 3px 25px;
-  color: #000;
+  color: $text-dark;
   border-radius: 30px;
-  background: #F1F6F3;
-  border: 1px solid #D6ECE0;
+  background: $light-bg;
+  border: 1px solid $border;
   &.style-two {
-    border: 2px solid $color-three;
+    border: 2px solid $color-one;
     background: transparent;
   }
   span {
-    color: $color-three;
+    color: $color-one;
   }
   a {
     font-weight: normal;
-    color: $color-three;
+    color: $color-one;
     text-decoration: underline;
   }
 }
@@ -324,7 +323,7 @@ hr {opacity: 0.09; margin: 5px 0;}
   color: #000;
   letter-spacing: -1px;
   &:hover {
-      color: $color-three; 
+      color: $color-one; 
   }
   i {
     font-size: 1.4em;
@@ -334,10 +333,10 @@ hr {opacity: 0.09; margin: 5px 0;}
 .btn-ten {
   line-height: 50px;
   border-radius: 10px;
-  background: $color-five;
+  background: $color-one;
   padding: 0 26px;
   &:hover {
-      background: $color-three;
+      background: $color-four;
   }
 }
 .btn-eleven {
@@ -347,10 +346,10 @@ hr {opacity: 0.09; margin: 5px 0;}
   text-transform: uppercase;
   letter-spacing: 0.88px;
   color: #fff;
-  background: $color-five;
+  background: $color-one;
   width: 100%;
   &:hover,&:focus {
-      background: $color-three;
+      background: $color-four;
   }
 }
 // Title Style
@@ -360,10 +359,10 @@ hr {opacity: 0.09; margin: 5px 0;}
   &.main-font {
     font-family: $main-font;
     font-size: 60px;
-    color: #000;
+    color: $text-dark;
     line-height: 1.333em;
     &.color-blue {
-      color: #005025;
+      color: $color-four;
     }
   }
 }
@@ -373,13 +372,13 @@ hr {opacity: 0.09; margin: 5px 0;}
 }
 .title-one .line {
   height: 1px;
-  background: #E5E5E5;
+  background: $divider;
   flex: 1 1 auto!important;
 }
 .title-one .sub-title {
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: rgba($color: #000000, $alpha: 0.3);
+  color: rgba($color: $text-dark, $alpha: 0.3);
   font-size: 14px;
   margin-bottom: 15px;
 }

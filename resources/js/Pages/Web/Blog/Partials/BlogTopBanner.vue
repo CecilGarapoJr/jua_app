@@ -5,14 +5,14 @@
         <div class="row">
           <div class="col-xl-6 m-auto text-center">
             <div class="title-two">
-              <h2 class="text-white">{{ trans('Blog') }}</h2>
+              <h2 class="text-white">Pathways</h2>
             </div>
             <ul class="style-none d-flex justify-content-center page-pagination mt-15">
               <li>
-                <Link href="/">{{ trans('Home') }}</Link>
+                <Link href="/">Home</Link>
               </li>
               <li><i class="bi bi-chevron-right"></i></li>
-              <li>{{ trans('Blog') }}</li>
+              <li>Pathways</li>
             </ul>
           </div>
         </div>

@@ -196,20 +196,20 @@
         text-align: center;
         line-height: 90px;
         font-size: 30px;
-        color: $color-three;
+        color: $color-one;
         right: 0;
         bottom: 0;
         background: #fff;
         z-index: 1;
         &:hover {
-            background: $color-three;
+            background: $color-one;
             color: #fff;
         }
     }
 }
 // Hero Banner Six
 .hero-banner-six {
-    background-color: #212121;
+    background-color: $overlay;
     min-height: 100vh;
     z-index: 5;
 
@@ -576,6 +576,28 @@
             display: block;
             color: $color-two;
         }
+    }
+    // Ensure breadcrumb variant matches Pricing header (white bg, dark text)
+    &.inner-breadcrumb-colors {
+        background: #fff;
+        padding-bottom: 80px;
+
+        .title-two h2,
+        h2,
+        .page-pagination li,
+        .post-date {
+            color: $text-dark;
+        }
+        .page-pagination li a:hover { color: $text-dark; }
+        .share-buttons li a { background: rgba(4,4,4,0.6); }
+        .candidate-profile-card * { color: rgba(4,4,4,0.6); }
+        .cadidate-skills li,
+        .cv-download-btn {
+            background: rgba(70,70,70,0.8);
+            color: #f8f8f8;
+        }
+        .save-btn { background: rgba(216,216,216,0.8); }
+        .candidate-profile-card .candidate-name { color: #060606; }
     }
     .post-date {
         color: rgba($color: #fff, $alpha: 0.5);

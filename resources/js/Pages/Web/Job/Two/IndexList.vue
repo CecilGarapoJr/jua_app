@@ -62,7 +62,7 @@ onMounted(() => {
             >
               <div class="total-job-found">
                 {{ trans('All') }} <span class="text-dark">{{ openings.total }}</span>
-                {{ trans('jobs found') }}
+                Opportunities found
               </div>
               <div class="d-flex align-items-center">
                 <div class="short-filter d-flex align-items-center">
@@ -113,7 +113,7 @@ onMounted(() => {
             </template>
 
             <div class="text-center alert alert-info mt-30" role="alert" v-else>
-              {{ trans('No jobs found') }}
+              No Opportunities found
             </div>
           </div>
         </div>

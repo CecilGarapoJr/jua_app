@@ -2,13 +2,29 @@
 $main-font: 'gordita';
 $sub-font: 'EB Garamond', serif;
 
-// Color Settings
-$text-color: rgba(0,0,0,0.7);
-$text-dark: #000;
-$heading: #254035;
-$light-bg: #EFF6F3;
-$color-one: #244034;
-$color-two: #D2F34C;
-$color-three: #00BF58;
-$color-four:#005025;
-$color-five: #31795A;
+// Jua — Sand & Teal reskin
+// Base text & headings
+$text-color: rgba(30, 27, 22, 0.72);
+$text-dark: #1E1B16;
+$heading: #6F5538;           // deep brown for headings
+
+// Surfaces
+$light-bg: #F6F0E6;          // sand wash for sections
+
+// Brand & accents
+$color-one:  #A6784F;        // primary (sand-brown)
+$color-two:  #E2B676;        // accent (gold)
+$color-three:#2FA97C;        // success / CTA (teal)
+$color-four: #6F5538;        // hover/pressed (darker brown)
+$color-five: #9EC8BE;        // UI fills / chips (sage)
+
+// UI tokens
+$border:     #E6DFD3;
+$divider:    #EDE6DB;
+$input-bd:   #D9CFBF;
+$overlay:    #2B241B;
+
+// Optional semantic
+$warning: #E39A2F;
+$danger:  #C4584A;
+$info:    #2E8AB8;

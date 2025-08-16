@@ -23,8 +23,8 @@ const props = defineProps([
   <Breadcrumb
     :title="blog.title"
     href="/"
-    :href-text="trans('Home')"
-    :subtitle="trans('Blog')"
+    :href-text="'Home'"
+    :subtitle="'Pathways'"
   />
 
   <section class="blog-section pt-100 lg-pt-80">

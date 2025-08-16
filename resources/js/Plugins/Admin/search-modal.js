@@ -108,17 +108,17 @@ const searchData = [
             },
             {
                 icon: 'bx bx-box',
-                name: trans('Service'),
+                name: trans('Sectors'),
                 url: route('admin.job-service.index')
             },
             {
                 icon: 'bx bx-box',
-                name: trans('Category'),
+                name: trans('Categories'),
                 url: route('admin.job-category.index')
             },
             {
                 icon: 'bx bx-box',
-                name: trans('Tags'),
+                name: trans('Skills'),
                 url: route('admin.job-tag.index')
             },
             {

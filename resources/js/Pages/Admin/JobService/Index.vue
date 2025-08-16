@@ -29,21 +29,38 @@ const props = defineProps([
   'buttons',
   'segments'
 ])
+// UI-friendly breadcrumb segments and button labels
+const uiSegments = computed(() => {
+  if (!props.segments) return []
+  return props.segments.map((s) => {
+    const lower = String(s).toLowerCase()
+    if (lower === 'job-service' || lower === 'services' || lower === 'job services') return 'Sectors'
+    return s
+  })
+})
+
+const uiButtons = computed(() => {
+  if (!props.buttons) return []
+  return props.buttons.map((b) => ({
+    ...b,
+    name: String(b.name).replace(/Service/gi, 'Sector')
+  }))
+})
 const serviceStats = computed(() => {
   return [
     {
       value: props.totalCategories,
-      title: trans('Total Services'),
+      title: trans('Total Sectors'),
       iconClass: 'bx bx-badge'
     },
     {
       value: props.activeCategories,
-      title: trans('Active Services'),
+      title: trans('Active Sectors'),
       iconClass: 'bx bx-badge-check'
     },
     {
       value: props.inActiveCategories,
-      title: trans('Inactive Services'),
+      title: trans('Inactive Sectors'),
       iconClass: 'bx bx-x-circle'
     }
   ]
@@ -64,7 +81,7 @@ const storeService = () => {
   serviceForm.post(route('admin.job-service.store'), {
     onSuccess: () => {
       serviceForm.reset()
-      notify.success(trans('Service has been added successfully'))
+      notify.success(trans('Sector has been added successfully'))
       drawer.of('#addNewCategoryDrawer').hide()
     }
   })
@@ -88,7 +105,7 @@ const updateService = () => {
     {
       onSuccess: () => {
         editForm.value = {}
-        notify.success(trans('Service has been updated successfully'))
+        notify.success(trans('Sector has been updated successfully'))
         drawer.of('#editCategoryDrawer').hide()
       }
     }
@@ -98,7 +115,7 @@ const updateService = () => {
 
 <template>
   <main class="container p-4 sm:p-6">
-    <HeaderSegment title="Services" :segments="segments" :buttons="buttons" />
+    <HeaderSegment title="Sectors" :segments="uiSegments" :buttons="uiButtons" />
     <div class="space-y-6">
       <Overview :items="serviceStats" grid="3" />
 

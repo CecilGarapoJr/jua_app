@@ -80,7 +80,7 @@ const _sfc_main = {
         _push(`<!---->`);
       }
       if (unref(authUser) && unref(authUser).role == "employer") {
-        _push(`<li class="d-none d-md-block"><a${ssrRenderAttr("href", _ctx.route("employer.jobs.create"))} class="job-post-btn tran3s">${ssrInterpolate(_ctx.trans("Post Job"))}</a></li>`);
+        _push(`<li class="d-none d-md-block"><a${ssrRenderAttr("href", _ctx.route("employer.jobs.create"))} class="job-post-btn tran3s">${ssrInterpolate(_ctx.trans("Create Opportunity"))}</a></li>`);
       } else {
         _push(`<!---->`);
       }
@@ -187,7 +187,7 @@ const _sfc_main = {
           }, {
             default: withCtx((_, _push2, _parent2, _scopeId) => {
               if (_push2) {
-                _push2(`<div class="icon d-flex align-items-center justify-content-center rounded-circle tran3s"${_scopeId}><img${ssrRenderAttr("src", category.preview)}${_scopeId}></div><div class="flex-fill ps-3"${_scopeId}><div class="fw-500 text-dark"${_scopeId}>${ssrInterpolate(category.title)}</div><div class="job-count"${_scopeId}>${ssrInterpolate(category.jobs_count)} ${ssrInterpolate(_ctx.trans("Jobs"))}</div></div>`);
+                _push2(`<div class="icon d-flex align-items-center justify-content-center rounded-circle tran3s"${_scopeId}><img${ssrRenderAttr("src", category.preview)}${_scopeId}></div><div class="flex-fill ps-3"${_scopeId}><div class="fw-500 text-dark"${_scopeId}>${ssrInterpolate(category.title)}</div><div class="job-count"${_scopeId}>${ssrInterpolate(category.jobs_count)} ${ssrInterpolate(_ctx.trans("Opportunities"))}</div></div>`);
               } else {
                 return [
                   createVNode("div", { class: "icon d-flex align-items-center justify-content-center rounded-circle tran3s" }, [
@@ -197,7 +197,7 @@ const _sfc_main = {
                   ]),
                   createVNode("div", { class: "flex-fill ps-3" }, [
                     createVNode("div", { class: "fw-500 text-dark" }, toDisplayString(category.title), 1),
-                    createVNode("div", { class: "job-count" }, toDisplayString(category.jobs_count) + " " + toDisplayString(_ctx.trans("Jobs")), 1)
+                    createVNode("div", { class: "job-count" }, toDisplayString(category.jobs_count) + " " + toDisplayString(_ctx.trans("Opportunities")), 1)
                   ])
                 ];
               }
@@ -230,7 +230,7 @@ const _sfc_main = {
       }
       _push(`</ul></li>`);
       _push(ssrRenderComponent(_sfc_main$1, null, null, _parent));
-      _push(`<li class="d-md-none"><a${ssrRenderAttr("href", _ctx.route("employer.jobs.create"))} class="job-post-btn tran3s">${ssrInterpolate(_ctx.trans("Post Job"))}</a></li><li class="d-md-none">`);
+      _push(`<li class="d-md-none"><a${ssrRenderAttr("href", _ctx.route("employer.jobs.create"))} class="job-post-btn tran3s">${ssrInterpolate(_ctx.trans("Create Opportunity"))}</a></li><li class="d-md-none">`);
       _push(ssrRenderComponent(unref(Link), {
         href: _ctx.route("candidates.index"),
         class: "btn-one w-100"

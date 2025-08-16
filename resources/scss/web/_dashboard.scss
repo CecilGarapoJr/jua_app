@@ -89,10 +89,10 @@
             padding-left: 10px;
         }
         &:hover {
-            color: #3c8968;
+            color: $color-four;
         }
         &.active {
-            background: #3F634D;
+            background: $color-one; // sand-brown active state
             color: #fff;
         }
         img {
@@ -107,7 +107,7 @@
         .progress-line {
             height: 5px;
             border-radius: 10px;
-            background: #3F634D;
+            background: $color-one; // align progress bar with sand-brown theme
             overflow: hidden;
             margin: 9px 0 3px;
             .inner-line {

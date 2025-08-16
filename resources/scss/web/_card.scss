@@ -115,7 +115,7 @@
     position: absolute;
     width: 100%;
     height: 1px;
-    background: $color-three;
+    background: $color-one;
     left: 0;
     bottom: 0;
     @include transition(0.2s);
@@ -144,7 +144,7 @@
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: $color-three;
+    background: $color-one;
     color: #fff;
     font-size: 15px;
     line-height: initial;
@@ -152,7 +152,7 @@
 .card-style-five .icon {
     width: 80px;
     height: 80px;
-    background: $color-three;
+    background: $color-one;
 }
 // Card Six
 .card-style-six {
@@ -169,7 +169,7 @@
         left: 0;
         z-index: -1;
         position: absolute;
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+        background: linear-gradient(180deg, rgba($overlay, 0) 0%, $overlay 100%);
         @include transition(0.2s);
     }
     &:hover:before {
@@ -182,18 +182,18 @@
     border-radius: 60px;
     @include transition(0.2s);
     .title {
-        color: #000;
+        color: $text-dark;
         margin-left: 12px;
     }
 }
 .card-style-seven.bg-color a {
-    background: #F2F8F4;
-    border: 1px solid #F2F8F4;
+    background: $light-bg;
+    border: 1px solid $light-bg;
     .title {
-        color: #35764B;
+        color: $color-three;
     }
     &:hover {
-        border-color: #35764B;
+        border-color: $color-three;
         background: #fff;
     }
 }
@@ -214,7 +214,7 @@
 }
 .card-style-eight .name {
     font-size: 18px;
-    color: #000;
+    color: $text-dark;
     &:hover {
         color: $color-three;
     }

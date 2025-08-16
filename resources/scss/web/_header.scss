@@ -33,10 +33,10 @@
             .icon {
                width: 48px;
                height: 48px;
-               border: 1px solid #DCDCDC; 
+               border: 1px solid $input-bd; 
             }
             .job-count {
-                color: rgba($color: #09321C, $alpha: 0.5);
+                color: rgba($color: $text-dark, $alpha: 0.5);
                 margin-top: 2px;
             }
             &:hover .icon {
@@ -46,7 +46,7 @@
         }
         .explore-all-btn {
             width: 100%;
-            background: #EFEFEF;
+            background: $divider;
             padding: 12px 20px;
             margin-top: 40px;
             border-radius: 0 0 10px 10px;
@@ -127,6 +127,14 @@
         -webkit-transform: rotate3d(0, 0, 1, -45deg);
         transform: rotate3d(0, 0, 1, -45deg);
     }
+
+    // Constrain logo images (light/dark variants)
+    .logo img {
+        max-height: 42px;
+        width: auto;
+        height: auto;
+        display: block;
+    }
 }
 // Main Menu
 .navbar .nav-item .nav-link {
@@ -187,7 +195,7 @@
 }
 // Menu Two
 .menu-style-two.theme-main-menu.fixed {
-    background: #212121;
+    background: $overlay;
 }
 .menu-style-two .navbar .nav-item .nav-link {color: #fff;}
 .menu-style-two .navbar .nav-item:hover .nav-link {color:$color-three;}
@@ -399,6 +407,7 @@
 @media screen and (max-width: 991px) {
     .navbar {padding: 0;}
     .navbar-collapse .logo {margin-bottom: 8vh;}
+    .navbar-collapse .logo img { max-height: 36px; }
     .menu-style-one .navbar-collapse,
     .menu-style-two .navbar-collapse {background-color: #255741;}
     .navbar-collapse {

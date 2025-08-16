@@ -4,7 +4,7 @@ import JobIntro from '@/Pages/Web/Candidate/Partials/JobIntro.vue'
 import WebPaginate from '@/Components/WebPaginate.vue'
 import sharedComposable from '@/Composables/sharedComposable'
 import moment from 'moment'
-import Breadcrumb from '@/Components/Breadcrumb.vue'
+// Removed Breadcrumb; using custom banner with subtitle only
 const { textExcerpt } = sharedComposable()
 
 defineOptions({ layout: DefaultLayout })
@@ -14,12 +14,24 @@ const props = defineProps(['blogs', 'categories', 'recent_blogs', 'tags', 'meta'
 
 <template>
   <Seo :metaData="meta" />
-  <Breadcrumb
-    :title="trans('Blog')"
-    href="/"
-    :href-text="trans('Home')"
-    :subtitle="trans('Blog')"
-  />
+  <div class="inner-banner-one position-relative">
+    <div class="container">
+      <div class="position-relative">
+        <div class="row">
+          <div class="col-xl-8 m-auto text-center">
+            <div class="title-two">
+              <h2 class="text-white">Pathway</h2>
+              <p class="text-white opacity-75 mt-10">
+                Welcome to our blog taliored to give the best advice to help you succeed
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img src="/assets/images/shape/shape_02.svg" alt="" class="lazy-img shapes shape_01" />
+    <img src="/assets/images/shape/shape_03.svg" alt="" class="lazy-img shapes shape_02" />
+  </div>
 
   <section class="blog-section bg-color pt-100 lg-pt-80 pb-120 lg-pb-80">
     <div class="container">

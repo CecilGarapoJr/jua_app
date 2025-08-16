@@ -9,6 +9,7 @@ import InnerBanner from '@/Pages/Web/Job/Partials/InnerBanner.vue'
 import FilterForm from './Partials/FilterForm.vue'
 import { useJobFiltersStore } from '@/Store/jobFilterStore'
 import { onMounted } from 'vue'
+import { replaceTerminology } from '@/Utils/terminologyMapping'
 const filter = useJobFiltersStore()
 
 defineOptions({ layout: DefaultLayout })
@@ -58,7 +59,7 @@ onMounted(() => {
             <div class="upper-filter d-flex justify-content-between align-items-center mb-20">
               <div class="total-job-found">
                 <span class="text-dark">{{ openings.total }}</span>
-                {{ trans('jobs found') }}
+                Opportunities found
               </div>
               <div class="d-flex align-items-center">
                 <div class="short-filter d-flex align-items-center">
@@ -112,7 +113,7 @@ onMounted(() => {
             </template>
 
             <div class="alert alert-info mt-30 text-center" role="alert" v-else>
-              {{ trans('No jobs found') }}
+              {{ replaceTerminology(trans('No jobs found')) }}
             </div>
           </div>
         </div>

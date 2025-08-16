@@ -34,7 +34,7 @@ const formSubmit = () => {
             <div class="col-lg-6 col-md-8">
               <div class="job-search-two position-relative me-xxl-5">
                 <form @submit.prevent="formSubmit" class="d-flex align-items-center justify-content-between">
-                  <input type="text" v-model="form.keyword" placeholder="Search job, title etc...." class="bg-grey"
+                  <input type="text" v-model="form.keyword" placeholder="Search opportunities, titles, etc." class="bg-grey"
                      />
                   <button type="submit" class="btn-five h-100">{{ trans('Search') }}</button>
                 </form>
@@ -47,7 +47,7 @@ const formSubmit = () => {
           <img v-lazy="home.hero.image2" alt="img" class="lazy-img" />
           <div class="ps-3">
             <div class="fw-500 text-dark text-md">{{ freelancerCount }}</div>
-            <div>{{ trans('Individual Freelancer') }}</div>
+            <div>Join hundreds of Applicants</div>
           </div>
         </div>
       </div>

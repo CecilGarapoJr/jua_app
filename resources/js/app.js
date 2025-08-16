@@ -9,6 +9,8 @@ import trans from '@/Composables/transComposable'
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
+// Import web theme styles (Sand & Teal)
+import "../scss/web/style.scss";
 // Import persona mapping utility
 import { registerPersonaDirective } from '@/Utils/personaMapping'
 // Import route mapping utility

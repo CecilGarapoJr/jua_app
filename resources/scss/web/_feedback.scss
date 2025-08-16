@@ -6,7 +6,7 @@
 }
 .feedback-block-one {
     background: #F9FFE1;
-    border: 2px solid #000;
+    border: 2px solid $text-dark;
     border-radius: 30px;
     padding: 40px 40px 45px;
     @include transition(0.25s);
@@ -20,21 +20,21 @@
     blockquote {
         font-size: 36px;
         line-height: 1.3888em;
-        color: #000;
+        color: $text-dark;
     }
     .review {
-        border-top: 2px solid #000;
+        border-top: 2px solid $text-dark;
     }
     .review ul li a {
         font-size: 15px;
-        color: #000;
+        color: $text-dark;
         margin-left: 5px;
     }
     &.color-two {
         background: #755146;
         border: none;
         &:hover {
-            background: #249F47;
+            background: $color-three;
         }
         .review {
             border-top: 1px solid #fff;
@@ -52,7 +52,7 @@
     top:0;
     bottom: 0;
     width: 50%;
-    background: #F0F6F3;
+    background: $light-bg;
     z-index: -1;
 }
 .feedback-section-two .rating-title {
@@ -90,7 +90,7 @@
         margin-right: 5px;
     }
     .block-footer {
-        border-top: 1px solid #000;
+        border-top: 1px solid $text-dark;
 
         .author-img {
             width: 50px;
@@ -107,7 +107,7 @@
     .carousel-inner p {
         font-size: 36px;
         line-height: 1.888em;
-        color: #000;
+        color: $text-dark;
         margin-bottom: 55px;
     }
     .name:before {
@@ -115,7 +115,7 @@
         position: absolute;
         width: 30px;
         height: 2px;
-        background: #000;
+        background: $text-dark;
         left: -45px;
         top:16px;
     }
@@ -159,7 +159,7 @@
 }
 // FeedBack Section Four
 .feedback-section-four .bg-wrapper {
-    background: #1EA243;
+    background: $color-one;
     padding: 125px 150px 165px 110px;
     .icon {
         width: 80px;

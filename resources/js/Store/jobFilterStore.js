@@ -4,6 +4,7 @@ import sharedComposable from '@/Composables/sharedComposable'
 import { router, useForm } from '@inertiajs/vue3'
 import notify from '@/Plugins/Admin/notify'
 import trans from '@/Composables/transComposable'
+import { replaceTerminology } from '@/Utils/terminologyMapping'
 const { pickBy, getQueryParams } = sharedComposable()
 
 export const useJobFiltersStore = defineStore({
@@ -163,24 +164,22 @@ export const useJobFiltersStore = defineStore({
         this.filterForm.skills.push(parseInt(id))
       }
     },
-    submit() {
-      if (this.filterForm.max_salary < 1 || this.initialMaxSalary === this.filterForm.max_salary) {
-        this.filterForm.max_salary = null
-        this.filterForm.min_salary = null
+    submit(clear = null) {
+      if (clear === 'clear') {
+        this.clear()
       }
-      const queryParams = Object.fromEntries(new URLSearchParams(window.location.search))
-      const updatedQueryParams = { v: queryParams?.v, type: queryParams?.type, ...this.filterForm }
 
-      router.get(route('jobs.index'), pickBy(updatedQueryParams), {
+      const params = pickBy(this.filterForm)
+      
+      // Determine if we should use the opportunities route based on the selected type
+      // If type is set and is not a job_ type, use opportunities route
+      const useOpportunitiesRoute = this.filterForm.type && !this.filterForm.type.startsWith('job_');
+      
+      router.get(route(useOpportunitiesRoute ? 'opportunities.index' : 'jobs.index'), params, {
         preserveState: true,
         preserveScroll: true,
-        replace: true
+        only: ['openings', 'seo']
       })
-
-      if (this.filterForm.max_salary < 1 || this.initialMaxSalary === this.filterForm.max_salary) {
-        this.filterForm.min_salary = 0
-        this.filterForm.max_salary = this.initialMaxSalary
-      }
     },
 
     setLayout(layout) {
@@ -189,10 +188,12 @@ export const useJobFiltersStore = defineStore({
 
     toggleBookmark(job) {
       let form = useForm({})
-      form.post(route('jobs.bookmark', job), {
+      // Use the new opportunity routes but maintain backward compatibility
+      const routeName = job.type && !job.type.startsWith('job_') ? 'opportunities.bookmark' : 'jobs.bookmark';
+      form.post(route(routeName, job), {
         preserveScroll: true,
         onSuccess: () => {
-          notify.success(trans('Job has been saved successfully'))
+          notify.success(replaceTerminology(trans(job.type && !job.type.startsWith('job_') ? 'Opportunity has been saved successfully' : 'Job has been saved successfully')))
         }
       })
     },

@@ -51,7 +51,7 @@ const filter = useJobFiltersStore();
                 <div class="total-job-found xs-mt-10">
                   {{ trans("All") }}
                   <span class="text-dark fw-500">{{ openings.total }}</span>
-                  {{ trans("jobs found") }}
+                  Opportunities found
                 </div>
               </div>
               <div class="d-flex align-items-center">
@@ -162,7 +162,7 @@ const filter = useJobFiltersStore();
               class="text-center alert alert-info mt-30"
               role="alert"
             >
-              {{ trans("No jobs found") }}
+              No Opportunities found
             </div>
 
             <Paginate :links="openings.links" />

@@ -47,7 +47,7 @@ const applicantStats = [
           <thead>
             <tr>
               <th>{{ trans('Applicant') }}</th>
-              <th>{{ trans('Service') }}</th>
+              <th>{{ trans('Sector') }}</th>
               <th>{{ trans('Is Starred') }}</th>
               <th>{{ trans('Status') }}</th>
               <th class="text-left">{{ trans('Created At') }}</th>

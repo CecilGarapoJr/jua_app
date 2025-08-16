@@ -17,7 +17,7 @@
     position: relative;
     &:after {
         content: ',';
-        color: rgba($color: #000000, $alpha: 0.3);
+        color: rgba($color: $text-dark, $alpha: 0.3);
     }
     &:last-child:after {
         display: none;
@@ -25,10 +25,10 @@
 
     a {
         font-size: 15px;
-        color: rgba($color: #000000, $alpha: 0.4);
+        color: rgba($color: $text-dark, $alpha: 0.4);
         @include transition(0.2s);
         &:hover {
-            color: #000;
+            color: $text-dark;
         }
     }
 }
@@ -45,7 +45,7 @@
 }
 .blog-meta-one .date {
     font-size: 14px;
-    color: rgba($color: #000000, $alpha: 0.5);
+    color: rgba($color: $text-dark, $alpha: 0.5);
     &:hover {
         text-decoration: underline;
     }
@@ -81,7 +81,7 @@
     .date a {
         color: #AAAAAA;
         &:hover {
-            color: #000;
+            color: $text-dark;
             text-decoration: underline;
         }
     }
@@ -100,7 +100,7 @@
     }
     .continue-btn {
         font-size: 18px;
-        color: #000;
+        color: $text-dark;
         letter-spacing: -1px;
         &:hover {
             color: $color-three; 
@@ -126,7 +126,7 @@
             height: 100%;
             border: none;
             border-radius: 5px;
-            background: #F4F4F4;
+            background: $divider;
             padding: 0 60px 0 20px;
         }
         button {
@@ -143,7 +143,7 @@
         margin-bottom: 25px;
     }
     .category-list li a {
-        color: #000;
+        color: $text-dark;
         line-height: 40px;
         &:hover {
             text-decoration: underline;
@@ -180,7 +180,7 @@
                 color: $color-five;
                 line-height: 35px;
                 border-radius: 30px;
-                background: #EFF6F3;
+                background: $light-bg;
                 @include transition(0.2s);
                 &:hover {
                     background: $color-one;
@@ -193,7 +193,7 @@
 // Blog Details
 .blog-details-meta {
     .blog-pubish-date {
-        color: rgba($color: #000000, $alpha: 0.5);
+        color: rgba($color: $text-dark, $alpha: 0.5);
         a {
             font-weight: 500;
             color: $color-one;
@@ -237,7 +237,7 @@
         }
         .name {
             font-size: 15px;
-            color: #407F64;
+            color: $color-three;
         }
     }
     h3 {

@@ -117,7 +117,7 @@ export var navMenuItems = [
     subs: [
       {
         permission: 'job-service', // Backend permission name remains unchanged
-        text: 'Services',
+        text: 'Sectors',
         uri: route('admin.job-service.index')
       },
       {
