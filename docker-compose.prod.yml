@@ -11,7 +11,7 @@ services:
     environment:
       - APP_ENV=production
       - APP_DEBUG=false
-      - APP_URL=${APP_URL}
+      - APP_URL=https://jua.twunhu.app
       - DB_CONNECTION=mysql
       - DB_HOST=rwcoso0sggk8ggsg448w440s
       - DB_PORT=3306
